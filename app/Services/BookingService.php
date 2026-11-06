@@ -119,7 +119,7 @@ class BookingService
      */
     public function cancel(Booking $booking, ?string $reason = null): Booking
     {
-        return DB::transaction(function () use ($booking) {
+        return DB::transaction(function () use ($booking, $reason) {
             $booking = Booking::query()->lockForUpdate()->findOrFail($booking->id);
 
             if ($booking->status !== Booking::STATUS_PENDING) {

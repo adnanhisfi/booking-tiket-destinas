@@ -10,7 +10,7 @@
         @php
             $menu = [
                 ['Beranda', '/', 'M3 12l9-9 9 9M5 10v10h14V10'],
-                ['Booking', '/destinasi', 'M4 6h16M4 12h16M4 18h16'],
+                ['Destinasi', '/destinasi', 'M4 6h16M4 12h16M4 18h16'],
                 ['Riwayat', '/riwayat', 'M12 8v5l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z'],
                 ['Profil', '/profil', 'M12 12a4 4 0 100-8 4 4 0 000 8zM4 21a8 8 0 0116 0'],
             ];

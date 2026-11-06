@@ -2,46 +2,77 @@
 @section('title', 'Kelola Destinasi')
 @section('heading', 'Kelola Destinasi')
 @section('sub', 'Tambah, ubah, dan hapus destinasi wisata')
-@section('actions')<a href="{{ url('/admin/destinasi/create') }}" class="bg-primary text-white text-sm rounded-xl px-5 py-2.5 font-semibold">+ Tambah Destinasi</a>@endsection
 
-@php
-    $list = [
-        ['Kawah Putih', 'Ciwidey, Bandung', 'Alam', 4.8, 25000, 'aktif'], ['Raja Ampat', 'Papua Barat', 'Pantai', 4.9, 750000, 'aktif'],
-        ['Bromo', 'Jawa Timur', 'Alam', 4.7, 50000, 'aktif'], ['Taman Safari Bogor', 'Bogor', 'Edukasi', 4.6, 120000, 'aktif'],
-        ['Candi Borobudur', 'Magelang', 'Budaya', 4.8, 75000, 'aktif'], ['Pantai Kuta', 'Bali', 'Pantai', 4.5, 15000, 'nonaktif'],
-    ];
-@endphp
+@section('actions')
+    <a href="{{ route('admin.destinations.create') }}" class="bg-primary text-white text-sm rounded-xl px-5 py-2.5 font-semibold">+ Tambah Destinasi</a>
+@endsection
 
 @section('content')
 <div class="bg-white rounded-2xl border p-5">
-    <form class="flex gap-3 mb-4">
-        <input name="q" placeholder="Cari destinasi..." class="border rounded-xl px-4 py-2 text-sm w-72">
-        <select name="kategori" class="border rounded-xl px-3 py-2 text-sm">
-            <option value="">Semua</option>@foreach (['Alam', 'Pantai', 'Budaya', 'Edukasi'] as $k)<option>{{ $k }}</option>@endforeach
+    <form method="GET" action="{{ route('admin.destinations.index') }}" class="flex flex-wrap gap-3 mb-4">
+        <input name="q" value="{{ request('q') }}" placeholder="Cari destinasi..." class="border rounded-xl px-4 py-2 text-sm w-72">
+        <select name="category_id" class="border rounded-xl px-3 py-2 text-sm">
+            <option value="">Semua kategori</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" @selected((int) request('category_id') === $category->id)>{{ $category->name }}</option>
+            @endforeach
         </select>
+        <select name="status" class="border rounded-xl px-3 py-2 text-sm">
+            <option value="">Semua status</option>
+            <option value="active" @selected(request('status') === 'active')>Aktif</option>
+            <option value="inactive" @selected(request('status') === 'inactive')>Nonaktif</option>
+        </select>
+        <button class="border rounded-xl px-4 py-2 text-sm text-gray-600">Terapkan</button>
+        <a href="{{ route('admin.destinations.index') }}" class="px-2 py-2 text-sm text-gray-400">Reset</a>
     </form>
+
     <table class="w-full text-sm">
-        <thead class="text-xs text-gray-400 text-left"><tr><th class="py-2">DESTINASI</th><th>KATEGORI</th><th>RATING</th><th>HARGA TIKET</th><th>STATUS</th><th>AKSI</th></tr></thead>
+        <thead class="text-xs text-gray-400 text-left">
+            <tr><th class="py-2">DESTINASI</th><th>KATEGORI</th><th>RATING</th><th>HARGA TIKET</th><th>STATUS</th><th>AKSI</th></tr>
+        </thead>
         <tbody>
-        @foreach ($list as [$nama, $lokasi, $kat, $rating, $harga, $status])
-            <tr class="border-t">
-                <td class="py-3"><div class="flex items-center gap-3">
-                    <img src="https://placehold.co/80x80/E8F5E9/2E7D32?text={{ urlencode(substr($nama, 0, 2)) }}" class="w-11 h-11 rounded-lg object-cover">
-                    <div><p class="font-medium">{{ $nama }}</p><p class="text-xs text-gray-400">{{ $lokasi }}</p></div></div></td>
-                <td>{{ $kat }}</td><td>★ {{ number_format($rating, 1) }}</td><td>Rp {{ number_format($harga, 0, ',', '.') }}</td>
-                <td>@include('partials.badge', ['s' => $status])</td>
-                <td class="space-x-3 whitespace-nowrap">
-                    <a href="{{ url('/admin/destinasi/' . Str::slug($nama) . '/edit') }}" class="text-primary">Edit</a>
-                    <form method="POST" action="{{ url('/admin/destinasi/' . Str::slug($nama)) }}" class="inline" onsubmit="return confirm('Hapus {{ $nama }}?')">@csrf @method('DELETE')
-                        <button class="text-red-500">Hapus</button></form>
-                </td>
-            </tr>
-        @endforeach
+            @forelse ($destinations as $destination)
+                @php
+                    $thumb = $destination->thumbnail
+                        ? asset('storage/'.$destination->thumbnail)
+                        : 'https://placehold.co/80x80/E8F5E9/2E7D32?text='.urlencode(substr($destination->name, 0, 2));
+                @endphp
+                <tr class="border-t">
+                    <td class="py-3">
+                        <div class="flex items-center gap-3">
+                            <img src="{{ $thumb }}" class="w-11 h-11 rounded-lg object-cover" alt="{{ $destination->name }}">
+                            <div>
+                                <p class="font-medium">{{ $destination->name }}</p>
+                                <p class="text-xs text-gray-400">{{ $destination->location }}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ $destination->category?->name ?? '-' }}</td>
+                    <td>★ {{ $destination->rating_avg ? number_format((float) $destination->rating_avg, 1) : '-' }}</td>
+                    <td>
+                        @if ($destination->min_price !== null)
+                            Rp {{ number_format((float) $destination->min_price, 0, ',', '.') }}
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td>@include('partials.badge', ['s' => $destination->status])</td>
+                    <td class="space-x-3 whitespace-nowrap">
+                        <a href="{{ route('admin.destinations.edit', $destination->slug) }}" class="text-primary">Edit</a>
+                        <form method="POST" action="{{ route('admin.destinations.destroy', $destination->slug) }}" class="inline"
+                              onsubmit="return confirm('Hapus destinasi {{ addslashes($destination->name) }}?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="text-red-500">Hapus</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="6" class="py-8 text-center text-gray-400">Belum ada destinasi.</td></tr>
+            @endforelse
         </tbody>
     </table>
-    <div class="flex justify-between items-center mt-4 text-sm text-gray-500">
-        <span>Menampilkan 6 dari 12 destinasi</span>
-        <div class="flex gap-1"><span class="px-3 py-1 rounded bg-primary text-white">1</span><span class="px-3 py-1 rounded border">2</span></div>
-    </div>
+
+    <div class="mt-4">{{ $destinations->links() }}</div>
 </div>
 @endsection

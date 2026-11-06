@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureUserHasRole;
+use App\Http\Middleware\ForceJsonResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -14,7 +15,19 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->api(prepend: [
+            ForceJsonResponse::class,
+        ]);
+
         $middleware->throttleApi('api');
+
+        $middleware->redirectGuestsTo(fn (Request $request) => $request->is('admin', 'admin/*')
+            ? route('admin.login')
+            : route('login'));
+
+        $middleware->redirectUsersTo(fn (Request $request) => $request->user()?->isAdmin()
+            ? route('admin.dashboard')
+            : route('katalog.beranda'));
 
         $middleware->alias([
             'role' => EnsureUserHasRole::class,

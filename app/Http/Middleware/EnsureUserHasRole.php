@@ -11,13 +11,22 @@ class EnsureUserHasRole
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         $user = $request->user();
+        $wantsJson = $request->is('api/*') || $request->expectsJson();
 
         if (! $user) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
+            if ($wantsJson) {
+                return response()->json(['message' => 'Unauthenticated.'], 401);
+            }
+
+            return redirect()->route($request->is('admin', 'admin/*') ? 'admin.login' : 'login');
         }
 
         if ($roles !== [] && ! in_array($user->role, $roles, true)) {
-            return response()->json(['message' => 'Akses ditolak untuk peran ini.'], 403);
+            if ($wantsJson) {
+                return response()->json(['message' => 'Akses ditolak untuk peran ini.'], 403);
+            }
+
+            abort(403, 'Akses ditolak untuk peran ini.');
         }
 
         return $next($request);

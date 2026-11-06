@@ -1,35 +1,89 @@
 @extends('layouts.admin')
+
 @php
-    $edit = isset($destinasi);
-    $d = fn ($k, $default = '') => old($k, $edit ? data_get($destinasi, $k, $default) : $default);
+    $edit = $destinasi !== null;
+    $d = fn ($key, $default = '') => old($key, $edit ? data_get($destinasi, $key, $default) : $default);
+    $facilitiesValue = old('facilities', $edit && is_array($destinasi->facilities) ? implode(', ', $destinasi->facilities) : '');
     $in = 'w-full border rounded-xl px-4 py-2.5 text-sm mt-1';
 @endphp
+
 @section('title', $edit ? 'Edit Destinasi' : 'Tambah Destinasi')
 @section('heading', $edit ? 'Edit Destinasi' : 'Tambah Destinasi')
 @section('sub', 'Lengkapi data destinasi wisata')
 
 @section('content')
-<form method="POST" enctype="multipart/form-data" action="{{ url('/admin/destinasi' . ($edit ? '/' . $destinasi->slug : '')) }}"
+<form method="POST" enctype="multipart/form-data"
+      action="{{ $edit ? route('admin.destinations.update', $destinasi->slug) : route('admin.destinations.store') }}"
       class="bg-white rounded-2xl border p-6 max-w-3xl grid grid-cols-2 gap-4">
-    @csrf @if ($edit) @method('PUT') @endif
+    @csrf
+    @if ($edit)
+        @method('PUT')
+    @endif
 
-    <div><label class="text-xs font-medium">Nama</label><input name="nama" value="{{ $d('nama') }}" class="{{ $in }}"></div>
-    <div><label class="text-xs font-medium">Lokasi</label><input name="lokasi" value="{{ $d('lokasi') }}" class="{{ $in }}"></div>
-    <div><label class="text-xs font-medium">Kategori</label>
-        <select name="kategori" class="{{ $in }}">@foreach (['Alam', 'Pantai', 'Budaya', 'Edukasi'] as $k)<option @selected($d('kategori') === $k)>{{ $k }}</option>@endforeach</select></div>
-    <div><label class="text-xs font-medium">Rating (0-5)</label><input name="rating" type="number" step="0.1" max="5" value="{{ $d('rating', 0) }}" class="{{ $in }}"></div>
-    <div><label class="text-xs font-medium">Harga Dewasa (Rp)</label><input name="harga_dewasa" type="number" value="{{ $d('harga_dewasa') }}" class="{{ $in }}"></div>
-    <div><label class="text-xs font-medium">Harga Anak (Rp)</label><input name="harga_anak" type="number" value="{{ $d('harga_anak', 0) }}" class="{{ $in }}"></div>
-    <div class="col-span-2"><label class="text-xs font-medium">Deskripsi</label><textarea name="deskripsi" rows="4" class="{{ $in }}">{{ $d('deskripsi') }}</textarea></div>
-    <div class="col-span-2"><p class="text-xs font-medium mb-1">Fasilitas</p>
-        <div class="flex gap-5 text-sm">@foreach (['Parkir', 'Toilet', 'Mushola', 'Spot Foto'] as $f)
-            <label class="flex items-center gap-2"><input type="checkbox" name="fasilitas[]" value="{{ $f }}" @checked(in_array($f, (array) $d('fasilitas', [])))> {{ $f }}</label>@endforeach</div></div>
-    <div><label class="text-xs font-medium">Status</label>
-        <select name="status" class="{{ $in }}">@foreach (['aktif', 'nonaktif'] as $s)<option value="{{ $s }}" @selected($d('status', 'aktif') === $s)>{{ ucfirst($s) }}</option>@endforeach</select></div>
-    <div><label class="text-xs font-medium">Gambar</label><input type="file" name="gambar" accept="image/*" class="{{ $in }}"></div>
+    <div>
+        <label class="text-xs font-medium">Nama Destinasi</label>
+        <input name="name" value="{{ $d('name') }}" class="{{ $in }}" required>
+    </div>
+    <div>
+        <label class="text-xs font-medium">Kategori</label>
+        <select name="category_id" class="{{ $in }}" required>
+            <option value="">Pilih kategori</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}" @selected((int) $d('category_id') === $category->id)>{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div>
+        <label class="text-xs font-medium">Lokasi</label>
+        <input name="location" value="{{ $d('location') }}" placeholder="Contoh: Bandung, Jawa Barat" class="{{ $in }}" required>
+    </div>
+    <div>
+        <label class="text-xs font-medium">Alamat Lengkap</label>
+        <input name="address" value="{{ $d('address') }}" class="{{ $in }}">
+    </div>
+    <div>
+        <label class="text-xs font-medium">Jam Buka</label>
+        <input name="opening_time" type="time" value="{{ $d('opening_time') }}" class="{{ $in }}">
+    </div>
+    <div>
+        <label class="text-xs font-medium">Jam Tutup</label>
+        <input name="closing_time" type="time" value="{{ $d('closing_time') }}" class="{{ $in }}">
+    </div>
+    <div class="col-span-2">
+        <label class="text-xs font-medium">Deskripsi</label>
+        <textarea name="description" rows="4" class="{{ $in }}" required>{{ $d('description') }}</textarea>
+    </div>
+    <div class="col-span-2">
+        <label class="text-xs font-medium">Fasilitas</label>
+        <input name="facilities" value="{{ $facilitiesValue }}" placeholder="Pisahkan dengan koma: Parkir, Toilet, Mushola" class="{{ $in }}">
+        <p class="text-[11px] text-gray-400 mt-1">Pisahkan setiap fasilitas dengan tanda koma.</p>
+    </div>
+    <div>
+        <label class="text-xs font-medium">Status</label>
+        <select name="status" class="{{ $in }}">
+            <option value="active" @selected($d('status', 'active') === 'active')>Aktif</option>
+            <option value="inactive" @selected($d('status') === 'inactive')>Nonaktif</option>
+        </select>
+    </div>
+    <div>
+        <label class="text-xs font-medium">Gambar / Thumbnail</label>
+        <input type="file" name="thumbnail" accept="image/*" class="{{ $in }}">
+        @if ($edit && $destinasi->thumbnail)
+            <div class="mt-2 flex items-center gap-2">
+                <img src="{{ asset('storage/'.$destinasi->thumbnail) }}" class="w-16 h-16 rounded-lg object-cover" alt="Thumbnail">
+                <span class="text-[11px] text-gray-400">Biarkan kosong jika tidak ingin mengganti gambar.</span>
+            </div>
+        @endif
+    </div>
+    <div class="col-span-2">
+        <label class="flex items-center gap-2 text-sm">
+            <input type="checkbox" name="is_featured" value="1" @checked((bool) old('is_featured', $edit ? $destinasi->is_featured : false)) class="accent-green-700">
+            Tampilkan sebagai destinasi unggulan
+        </label>
+    </div>
 
     <div class="col-span-2 flex gap-3 justify-end">
-        <a href="{{ url('/admin/destinasi') }}" class="px-5 py-2.5 text-sm border rounded-xl">Batal</a>
+        <a href="{{ route('admin.destinations.index') }}" class="px-5 py-2.5 text-sm border rounded-xl">Batal</a>
         <button class="px-5 py-2.5 text-sm bg-primary text-white rounded-xl font-semibold">Simpan</button>
     </div>
 </form>

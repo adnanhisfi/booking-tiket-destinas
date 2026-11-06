@@ -27,6 +27,8 @@ untuk pekerjaan latar belakang.
 | F15 | Filter kategori, lokasi, harga | ✅ |
 | — | Voucher / kode promo | ✅ |
 | — | Halaman katalog publik (Blade, konsumsi data dinamis) | ✅ |
+| — | Antarmuka web pengunjung & admin (login sesi, booking, pembayaran, scan) | ✅ |
+| — | Ulasan pengunjung (tampil & kirim setelah booking lunas) | ✅ |
 
 ## Kebutuhan
 
@@ -71,6 +73,22 @@ Atau sekaligus: `composer run dev`.
 
 > Worker `bookings:expire` dijalankan setiap menit (lihat `routes/console.php`) untuk
 > mengembalikan kuota booking yang melewati batas pembayaran.
+
+## Antarmuka Web
+
+Selain REST API, aplikasi menyediakan antarmuka web berbasis Blade + Tailwind yang memakai sesi login:
+
+| Area | Halaman |
+|------|---------|
+| Publik | `/`, `/destinasi`, `/destinasi/{slug}` (detail + ulasan) |
+| Autentikasi | `/masuk`, `/daftar`, `/admin/login` |
+| Pengunjung | `/destinasi/{slug}/pesan`, `/booking/{kode}`, `/pembayaran/{ref}`, `/riwayat`, `/profil` |
+| E-tiket | `/booking/{kode}/e-ticket` — QR dapat diunduh sebagai SVG |
+| Admin | `/admin` (dashboard), `/admin/destinasi`, `/admin/tiket`, `/admin/kuota`, `/admin/booking`, `/admin/pembayaran`, `/admin/laporan`, `/admin/scan` |
+
+- Ulasan dapat dikirim pengunjung setelah booking di destinasi tersebut berstatus `paid`/`completed`.
+- Halaman scan admin mendukung kamera browser (html5-qrcode) dan input kode manual sebagai fallback.
+- Login web memakai email **atau** nomor HP untuk pengunjung; form admin hanya menerima akun berperan admin.
 
 ## Konfigurasi Pembayaran
 
@@ -167,7 +185,7 @@ Status booking: `pending → paid → completed`, cabang `expired` / `cancelled`
 
 ```bash
 php artisan test
-php artisan pint --test
+vendor/bin/pint --test        # Windows: vendor\bin\pint --test
 ```
 
 Skenario kritis yang diuji:
@@ -190,8 +208,11 @@ app/
 │   ├── Controllers/CatalogController.php # halaman katalog publik (Blade)
 │   ├── Controllers/Api/V1/               # controller publik & pengunjung
 │   │   └── Admin/                        # controller admin
+│   ├── Controllers/Web/                  # halaman web pengunjung
+│   │   └── Admin/                        # halaman web admin
 │   ├── Middleware/EnsureUserHasRole.php  # RBAC
-│   └── Requests/Api/                     # validasi server-side (FormRequest)
+│   ├── Requests/Api/                     # validasi server-side API (FormRequest)
+│   └── Requests/Web/                     # validasi form web (FormRequest)
 ├── Jobs/SendEticketJob.php               # kirim e-tiket (queued)
 ├── Mail/EticketMail.php
 ├── Models/                               # 11 model domain
