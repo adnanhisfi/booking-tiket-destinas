@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#2E7D32">
+    <meta name="description" content="JelajahKu — pesan tiket destinasi wisata lokal dengan mudah, aman, dan cepat.">
+    <meta name="csrf-token" content="Soywcd4QUwrWEbVT14HTWFgtj6HpaeQe21TvT2rG">
+    <title>Dashboard Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: {
+            colors: { primary: '#2E7D32', soft: '#E8F5E9' },
+            fontFamily: { sans: ['Poppins', 'Inter', 'sans-serif'] }
+        } } }
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <style>[x-cloak]{display:none!important}</style>
+    </head>
+<body class="font-sans text-slate-800 bg-gray-100">
+    <div x-data="{ sidebarOpen: false }" class="min-h-screen bg-gray-100">
+    <a href="#admin-main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white">
+        Lewati ke konten utama
+    </a>
+
+    <div x-cloak x-show="sidebarOpen" x-transition.opacity
+         @click="sidebarOpen = false"
+         class="fixed inset-0 z-40 bg-slate-900/50 lg:hidden"
+         aria-hidden="true"></div>
+
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+           class="fixed inset-y-0 left-0 z-50 flex w-64 transform flex-col border-r bg-white transition-transform duration-200 lg:translate-x-0"
+           aria-label="Navigasi admin">
+        <div class="flex h-20 shrink-0 items-center justify-between gap-3 px-6">
+            <div class="flex items-center gap-3">
+                <div class="grid h-10 w-10 place-items-center rounded-xl bg-primary font-bold text-white">J</div>
+                <div><p class="font-bold leading-4">JelajahKu</p><p class="text-xs text-gray-400">Admin Panel</p></div>
+            </div>
+            <button type="button" @click="sidebarOpen = false"
+                    class="grid h-9 w-9 place-items-center rounded-lg text-gray-400 hover:bg-gray-100 lg:hidden"
+                    aria-label="Tutup menu admin">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <nav class="flex-1 space-y-1 overflow-y-auto px-4">
+                                            <a href="http://127.0.0.1:8099/admin"  aria-current="page"                    class="block rounded-xl px-4 py-3 text-sm bg-soft font-semibold text-primary">Dashboard</a>
+                                            <a href="http://127.0.0.1:8099/admin/destinasi"                    class="block rounded-xl px-4 py-3 text-sm text-gray-500 hover:bg-gray-50">Destinasi</a>
+                                            <a href="http://127.0.0.1:8099/admin/tiket"                    class="block rounded-xl px-4 py-3 text-sm text-gray-500 hover:bg-gray-50">Jenis Tiket</a>
+                                            <a href="http://127.0.0.1:8099/admin/kuota"                    class="block rounded-xl px-4 py-3 text-sm text-gray-500 hover:bg-gray-50">Kuota</a>
+                                            <a href="http://127.0.0.1:8099/admin/booking"                    class="block rounded-xl px-4 py-3 text-sm text-gray-500 hover:bg-gray-50">Booking</a>
+                                            <a href="http://127.0.0.1:8099/admin/pembayaran"                    class="block rounded-xl px-4 py-3 text-sm text-gray-500 hover:bg-gray-50">Pembayaran</a>
+                                            <a href="http://127.0.0.1:8099/admin/laporan"                    class="block rounded-xl px-4 py-3 text-sm text-gray-500 hover:bg-gray-50">Laporan</a>
+                                            <a href="http://127.0.0.1:8099/admin/scan"                    class="block rounded-xl px-4 py-3 text-sm text-gray-500 hover:bg-gray-50">Scan Tiket</a>
+                    </nav>
+        <div class="border-t p-4">
+            <a href="http://127.0.0.1:8099" class="mb-3 block text-xs text-primary hover:underline">← Lihat situs pengunjung</a>
+            <div class="flex items-center gap-3">
+                <div class="grid h-10 w-10 place-items-center rounded-full bg-primary text-sm font-semibold text-white">
+                    AD
+                </div>
+                <div class="min-w-0 flex-1">
+                    <p class="truncate text-sm font-semibold">Admin JelajahKu</p>
+                    <p class="truncate text-xs text-gray-400">admin@jelajahku.test</p>
+                </div>
+                <form method="POST" action="http://127.0.0.1:8099/logout"><input type="hidden" name="_token" value="Soywcd4QUwrWEbVT14HTWFgtj6HpaeQe21TvT2rG" autocomplete="off">                    <button class="text-xs text-red-500 hover:underline">Keluar</button>
+                </form>
+            </div>
+        </div>
+    </aside>
+
+    <div class="lg:ml-64">
+        <header class="sticky top-0 z-30 flex items-center gap-3 border-b bg-white/95 px-4 py-3 backdrop-blur lg:hidden">
+            <button type="button" @click="sidebarOpen = true"
+                    class="grid h-10 w-10 place-items-center rounded-xl border text-gray-600"
+                    aria-label="Buka menu admin" :aria-expanded="sidebarOpen.toString()">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <div>
+                <p class="font-semibold leading-4">JelajahKu</p>
+                <p class="text-[11px] text-gray-400">Admin Panel</p>
+            </div>
+        </header>
+
+        <main id="admin-main" class="p-4 sm:p-6 lg:p-8">
+            <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                    <h1 class="text-xl font-bold sm:text-2xl">Dashboard</h1>
+                    <p class="text-sm text-gray-500">Ringkasan aktivitas JelajahKu hari ini</p>
+                </div>
+                <div class="flex flex-wrap gap-2"></div>
+            </div>
+                        <div class="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+    <div class="bg-white rounded-2xl border p-5">
+        <p class="text-sm text-gray-500">Total Destinasi</p>
+        <p class="text-2xl font-bold mt-2">8</p>
+        <p class="text-xs text-primary mt-1">Destinasi terdaftar</p>
+    </div>
+    <div class="bg-white rounded-2xl border p-5">
+        <p class="text-sm text-gray-500">Total Booking</p>
+        <p class="text-2xl font-bold mt-2">0</p>
+        <p class="text-xs text-primary mt-1">0 booking hari ini</p>
+    </div>
+    <div class="bg-white rounded-2xl border p-5">
+        <p class="text-sm text-gray-500">Pembayaran Menunggu</p>
+        <p class="text-2xl font-bold mt-2">0</p>
+        <p class="text-xs text-primary mt-1">
+            0 bukti perlu diverifikasi
+        </p>
+    </div>
+    <div class="bg-white rounded-2xl border p-5">
+        <p class="text-sm text-gray-500">Pendapatan Hari Ini</p>
+        <p class="text-2xl font-bold mt-2">Rp 0</p>
+        <p class="text-xs text-primary mt-1">0 tiket terjual hari ini</p>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 gap-4 xl:grid-cols-3">
+    <div class="bg-white rounded-2xl border p-5 xl:col-span-2">
+        <div class="flex justify-between mb-3">
+            <h2 class="font-semibold">Booking Terbaru</h2>
+            <a href="http://127.0.0.1:8099/admin/booking" class="text-sm text-primary">Lihat semua ›</a>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-[640px] text-sm">
+                <thead class="text-xs text-gray-400 text-left">
+                    <tr><th class="py-2">KODE</th><th>PENGUNJUNG</th><th>DESTINASI</th><th>TOTAL</th><th>STATUS</th></tr>
+                </thead>
+                <tbody>
+                                            <tr><td colspan="5" class="py-6 text-center text-gray-400">Belum ada booking.</td></tr>
+                                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="space-y-4">
+        <div class="bg-white rounded-2xl border p-5">
+            <div class="flex justify-between mb-3">
+                <h2 class="font-semibold">Pendapatan 7 Hari</h2>
+                <a href="http://127.0.0.1:8099/admin/laporan?periode=7" class="text-sm text-primary">Laporan ›</a>
+            </div>
+            <div class="flex items-end gap-2 h-40">
+            <div class="flex-1 flex flex-col items-center justify-end h-full" title="Rp 0">
+            <div class="w-full rounded-t-md bg-primary/80" style="height: 2%"></div>
+            <span class="text-[10px] text-gray-400 mt-1">Sun</span>
+        </div>
+            <div class="flex-1 flex flex-col items-center justify-end h-full" title="Rp 0">
+            <div class="w-full rounded-t-md bg-primary/80" style="height: 2%"></div>
+            <span class="text-[10px] text-gray-400 mt-1">Mon</span>
+        </div>
+            <div class="flex-1 flex flex-col items-center justify-end h-full" title="Rp 0">
+            <div class="w-full rounded-t-md bg-primary/80" style="height: 2%"></div>
+            <span class="text-[10px] text-gray-400 mt-1">Tue</span>
+        </div>
+            <div class="flex-1 flex flex-col items-center justify-end h-full" title="Rp 0">
+            <div class="w-full rounded-t-md bg-primary/80" style="height: 2%"></div>
+            <span class="text-[10px] text-gray-400 mt-1">Wed</span>
+        </div>
+            <div class="flex-1 flex flex-col items-center justify-end h-full" title="Rp 0">
+            <div class="w-full rounded-t-md bg-primary/80" style="height: 2%"></div>
+            <span class="text-[10px] text-gray-400 mt-1">Thu</span>
+        </div>
+            <div class="flex-1 flex flex-col items-center justify-end h-full" title="Rp 0">
+            <div class="w-full rounded-t-md bg-primary/80" style="height: 2%"></div>
+            <span class="text-[10px] text-gray-400 mt-1">Fri</span>
+        </div>
+            <div class="flex-1 flex flex-col items-center justify-end h-full" title="Rp 0">
+            <div class="w-full rounded-t-md bg-primary/80" style="height: 2%"></div>
+            <span class="text-[10px] text-gray-400 mt-1">Sat</span>
+        </div>
+    </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border p-5">
+            <h2 class="font-semibold mb-3">Destinasi Terpopuler</h2>
+                            <p class="text-sm text-gray-400">Belum ada penjualan.</p>
+                    </div>
+    </div>
+</div>
+        </main>
+    </div>
+</div>
+    </body>
+</html>

@@ -101,6 +101,32 @@ class PaymentWebhookTest extends TestCase
         $this->assertSame('pending', $booking->fresh()->status);
     }
 
+    public function test_webhook_driver_manual_selalu_ditolak(): void
+    {
+        config(['payment.driver' => 'manual']);
+
+        $user = $this->customer();
+        $booking = $this->makeBooking($user);
+
+        $this->actingAs($user, 'sanctum')
+            ->postJson("/api/v1/bookings/{$booking->code}/payments", ['method' => 'transfer'])
+            ->assertCreated();
+
+        $payment = Payment::firstOrFail();
+
+        $this->call('POST', '/api/v1/payments/webhook', [], [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_SIGNATURE' => 'apa-saja',
+        ], json_encode([
+            'transaction_ref' => $payment->transaction_ref,
+            'status' => 'paid',
+        ]))->assertUnauthorized();
+
+        $this->assertSame(Payment::STATUS_PENDING, $payment->fresh()->status);
+        $this->assertSame(Booking::STATUS_PENDING, $booking->fresh()->status);
+        $this->assertSame(0, Ticket::count());
+    }
+
     public function test_status_booking_kedaluwarsa_saat_pembayaran_lewat_batas(): void
     {
         $user = $this->customer();

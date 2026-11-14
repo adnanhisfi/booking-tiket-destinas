@@ -14,7 +14,7 @@
 @section('content')
 <form method="POST" enctype="multipart/form-data"
       action="{{ $edit ? route('admin.destinations.update', $destinasi->slug) : route('admin.destinations.store') }}"
-      class="bg-white rounded-2xl border p-6 max-w-3xl grid grid-cols-2 gap-4">
+      class="grid max-w-3xl grid-cols-1 gap-4 rounded-2xl border bg-white p-5 sm:p-6 md:grid-cols-2">
     @csrf
     @if ($edit)
         @method('PUT')
@@ -49,11 +49,11 @@
         <label class="text-xs font-medium">Jam Tutup</label>
         <input name="closing_time" type="time" value="{{ $d('closing_time') }}" class="{{ $in }}">
     </div>
-    <div class="col-span-2">
+    <div class="md:col-span-2">
         <label class="text-xs font-medium">Deskripsi</label>
         <textarea name="description" rows="4" class="{{ $in }}" required>{{ $d('description') }}</textarea>
     </div>
-    <div class="col-span-2">
+    <div class="md:col-span-2">
         <label class="text-xs font-medium">Fasilitas</label>
         <input name="facilities" value="{{ $facilitiesValue }}" placeholder="Pisahkan dengan koma: Parkir, Toilet, Mushola" class="{{ $in }}">
         <p class="text-[11px] text-gray-400 mt-1">Pisahkan setiap fasilitas dengan tanda koma.</p>
@@ -75,14 +75,14 @@
             </div>
         @endif
     </div>
-    <div class="col-span-2">
+    <div class="md:col-span-2">
         <label class="flex items-center gap-2 text-sm">
             <input type="checkbox" name="is_featured" value="1" @checked((bool) old('is_featured', $edit ? $destinasi->is_featured : false)) class="accent-green-700">
             Tampilkan sebagai destinasi unggulan
         </label>
     </div>
 
-    <div class="col-span-2 flex gap-3 justify-end">
+    <div class="flex flex-col-reverse gap-3 md:col-span-2 sm:flex-row sm:justify-end">
         <a href="{{ route('admin.destinations.index') }}" class="px-5 py-2.5 text-sm border rounded-xl">Batal</a>
         <button class="px-5 py-2.5 text-sm bg-primary text-white rounded-xl font-semibold">Simpan</button>
     </div>

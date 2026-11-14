@@ -14,13 +14,13 @@
 @section('content')
 <form method="POST"
       action="{{ $edit ? route('admin.tickets.update', $ticketType->id) : route('admin.tickets.store') }}"
-      class="bg-white rounded-2xl border p-6 max-w-2xl grid grid-cols-2 gap-4">
+      class="grid max-w-2xl grid-cols-1 gap-4 rounded-2xl border bg-white p-5 sm:p-6 md:grid-cols-2">
     @csrf
     @if ($edit)
         @method('PUT')
     @endif
 
-    <div class="col-span-2">
+    <div class="md:col-span-2">
         <label class="text-xs font-medium">Destinasi</label>
         <select name="destination_id" class="{{ $in }}" required>
             <option value="">Pilih destinasi</option>
@@ -49,12 +49,12 @@
         <label class="text-xs font-medium">Kuota Harian</label>
         <input name="default_quota" type="number" min="0" step="1" value="{{ $d('default_quota', 0) }}" class="{{ $in }}" required>
     </div>
-    <div class="col-span-2">
+    <div class="md:col-span-2">
         <label class="text-xs font-medium">Deskripsi</label>
         <input name="description" value="{{ $d('description') }}" placeholder="Opsional" class="{{ $in }}">
     </div>
 
-    <div class="col-span-2 flex gap-3 justify-end">
+    <div class="flex flex-col-reverse gap-3 md:col-span-2 sm:flex-row sm:justify-end">
         <a href="{{ route('admin.tickets.index') }}" class="px-5 py-2.5 text-sm border rounded-xl">Batal</a>
         <button class="px-5 py-2.5 text-sm bg-primary text-white rounded-xl font-semibold">Simpan</button>
     </div>

@@ -18,7 +18,7 @@
 <div class="bg-white rounded-2xl border p-5">
     <form method="GET" action="{{ route('admin.payments.index') }}" class="flex flex-wrap gap-2 mb-4 text-sm">
         <input name="q" value="{{ request('q') }}" placeholder="Cari referensi / kode booking / nama..."
-               class="border rounded-xl px-4 py-2 w-72">
+               class="w-full border rounded-xl px-4 py-2 sm:w-72">
         @if (request('status'))
             <input type="hidden" name="status" value="{{ request('status') }}">
         @endif
@@ -44,7 +44,8 @@
         </a>
     </div>
 
-    <table class="w-full text-sm">
+    <div class="overflow-x-auto">
+    <table class="w-full min-w-[920px] text-sm">
         <thead class="text-xs text-gray-400 text-left">
             <tr><th class="py-2">REFERENSI</th><th>BOOKING</th><th>PENGUNJUNG</th><th>METODE</th><th>JUMLAH</th><th>STATUS</th><th>BUKTI</th><th>AKSI</th></tr>
         </thead>
@@ -89,6 +90,7 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
     <div class="mt-4">{{ $payments->links() }}</div>
 </div>

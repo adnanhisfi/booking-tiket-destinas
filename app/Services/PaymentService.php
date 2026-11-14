@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class PaymentService
@@ -18,6 +19,7 @@ class PaymentService
     public function __construct(
         protected GatewayManager $gateways,
         protected TicketService $tickets,
+        protected BookingService $bookings,
     ) {}
 
     /**
@@ -80,9 +82,31 @@ class PaymentService
             ]);
         }
 
+        $booking = $payment->booking;
+
+        if ($booking && $booking->isExpiredByTime()) {
+            $this->bookings->expire($booking);
+
+            throw ValidationException::withMessages([
+                'payment' => 'Batas waktu pembayaran sudah lewat. Silakan buat booking baru.',
+            ]);
+        }
+
+        if (! $booking || ! $booking->isPending()) {
+            throw ValidationException::withMessages([
+                'payment' => 'Booking ini sudah tidak menunggu pembayaran.',
+            ]);
+        }
+
+        $oldPath = $payment->proof_path;
         $path = $file->store('payment-proofs', 'public');
 
         $payment->update(['proof_path' => $path]);
+
+        // Hindari orphan file ketika pengunjung mengganti bukti transfer.
+        if ($oldPath && $oldPath !== $path) {
+            Storage::disk('public')->delete($oldPath);
+        }
 
         return $payment->refresh();
     }
@@ -142,11 +166,34 @@ class PaymentService
      */
     public function verifyManual(Payment $payment, User $admin): Payment
     {
+        $payment->loadMissing('booking');
+
+        if ($payment->booking && $payment->booking->isExpiredByTime()) {
+            $this->bookings->expire($payment->booking);
+
+            throw ValidationException::withMessages([
+                'payment' => 'Batas waktu pembayaran sudah lewat. Booking telah kedaluwarsa.',
+            ]);
+        }
+
         return DB::transaction(function () use ($payment, $admin) {
             $payment = Payment::query()->lockForUpdate()->findOrFail($payment->id);
+            $booking = Booking::query()->lockForUpdate()->find($payment->booking_id);
 
             if ($payment->isPaid()) {
                 return $payment;
+            }
+
+            if ($payment->status !== Payment::STATUS_PENDING) {
+                throw ValidationException::withMessages([
+                    'payment' => 'Pembayaran ini sudah tidak menunggu verifikasi.',
+                ]);
+            }
+
+            if (! $booking || ! $booking->isPending() || $booking->expires_at->isPast()) {
+                throw ValidationException::withMessages([
+                    'payment' => 'Booking sudah kedaluwarsa atau tidak menunggu pembayaran.',
+                ]);
             }
 
             if (! $payment->proof_path) {

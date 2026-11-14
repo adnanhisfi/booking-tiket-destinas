@@ -1,0 +1,19 @@
+﻿### api-401 -> GET http://127.0.0.1:8099/api/v1/bookings
+--- RESPONSE HEADERS ---
+HTTP/1.1 401 Unauthorized
+Host: 127.0.0.1:8099
+Connection: close
+X-Powered-By: PHP/8.2.12
+Cache-Control: no-cache, private
+Date: Sat, 07 Nov 2026 04:03:44 GMT
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=()
+Cross-Origin-Opener-Policy: same-origin
+X-Permitted-Cross-Domain-Policies: none
+Access-Control-Allow-Origin: *
+
+--- RESPONSE BODY ---
+{"success":false,"message":"Sesi tidak valid. Silakan login kembali.","code":401}

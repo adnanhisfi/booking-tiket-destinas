@@ -340,6 +340,19 @@ class WebAdminTest extends TestCase
         $this->assertSame(Ticket::STATUS_VALID, $ticket->fresh()->status);
     }
 
+    public function test_filter_tanggal_tidak_valid_pada_laporan_tidak_menimbulkan_error(): void
+    {
+        $admin = $this->admin();
+
+        $this->actingAs($admin)
+            ->get(route('admin.reports.index', ['from' => 'abc', 'to' => 'xyz']))
+            ->assertOk();
+
+        $this->actingAs($admin)
+            ->get(route('admin.reports.index', ['from' => ['abc']]))
+            ->assertOk();
+    }
+
     public function test_laporan_dan_ekspor_csv_berfungsi(): void
     {
         $admin = $this->admin();

@@ -36,7 +36,7 @@
     <button class="border rounded-xl px-4 py-2 text-gray-600">Terapkan</button>
 </form>
 
-<div class="grid grid-cols-4 gap-4 mb-6">
+<div class="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
     <div class="bg-white rounded-2xl border p-5">
         <p class="text-sm text-gray-500">Total Pendapatan</p>
         <p class="text-2xl font-bold mt-2">Rp {{ number_format((float) $summary['revenue'], 0, ',', '.') }}</p>
@@ -59,14 +59,15 @@
     </div>
 </div>
 
-<div class="grid grid-cols-2 gap-4">
+<div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
     <div class="bg-white rounded-2xl border p-5">
         <h2 class="font-semibold mb-3">Pendapatan {{ $period === 365 ? 'per Bulan' : 'per Hari' }}</h2>
         @include('partials.grafik', ['grafik' => $grafik])
     </div>
     <div class="bg-white rounded-2xl border p-5">
         <h2 class="font-semibold mb-3">Pendapatan per Destinasi</h2>
-        <table class="w-full text-sm">
+        <div class="overflow-x-auto">
+        <table class="w-full min-w-[420px] text-sm">
             <thead class="text-xs text-gray-400 text-left">
                 <tr><th class="py-2">DESTINASI</th><th>BOOKING</th><th class="text-right">PENDAPATAN</th></tr>
             </thead>
@@ -82,6 +83,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 @endsection

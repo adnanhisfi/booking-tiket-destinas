@@ -56,6 +56,22 @@ class WebBookingFlowTest extends TestCase
             ->assertSee('75.000');
     }
 
+    public function test_tanggal_tidak_valid_pada_form_booking_tidak_menimbulkan_error(): void
+    {
+        $user = $this->customer();
+        [$destination] = $this->destinationWithTicket(now()->addDays(2)->toDateString());
+
+        foreach (['abc', '2020-01-01', '9999-12-31'] as $invalidDate) {
+            $this->actingAs($user)
+                ->get(route('booking.create', $destination->slug).'?tanggal='.$invalidDate)
+                ->assertOk();
+        }
+
+        $this->actingAs($user)
+            ->get(route('booking.create', $destination->slug).'?tanggal[]=abc')
+            ->assertOk();
+    }
+
     public function test_pengunjung_dapat_membuat_booking_lewat_form_web(): void
     {
         $user = $this->customer();
@@ -265,6 +281,69 @@ class WebBookingFlowTest extends TestCase
             'ticket_type_id' => $ticketType->id,
             'sold' => 0,
         ]);
+    }
+
+    public function test_bukti_transfer_ditolak_setelah_batas_waktu_pembayaran(): void
+    {
+        Storage::fake('public');
+
+        $user = $this->customer();
+        [, $ticketType, $booking] = $this->createBooking($user, 2);
+
+        $this->actingAs($user)
+            ->post(route('payment.store', $booking->code), ['method' => 'transfer']);
+
+        $payment = Payment::query()->latest('id')->firstOrFail();
+
+        $booking->update(['expires_at' => now()->subMinute()]);
+
+        $this->actingAs($user)
+            ->from(route('payment.show', $payment->transaction_ref))
+            ->post(route('payment.proof', $payment->transaction_ref), [
+                'proof' => UploadedFile::fake()->create('bukti-transfer.jpg', 100, 'image/jpeg'),
+            ])
+            ->assertRedirect(route('payment.show', $payment->transaction_ref))
+            ->assertSessionHasErrors('payment');
+
+        $this->assertSame(Booking::STATUS_EXPIRED, $booking->fresh()->status);
+        $this->assertSame(Payment::STATUS_EXPIRED, $payment->fresh()->status);
+        $this->assertNull($payment->fresh()->proof_path);
+        $this->assertDatabaseHas('ticket_availability', [
+            'ticket_type_id' => $ticketType->id,
+            'sold' => 0,
+        ]);
+    }
+
+    public function test_admin_tidak_dapat_memverifikasi_pembayaran_booking_kedaluwarsa(): void
+    {
+        Storage::fake('public');
+
+        $user = $this->customer();
+        $admin = $this->admin();
+        [, , $booking] = $this->createBooking($user, 2);
+
+        $this->actingAs($user)
+            ->post(route('payment.store', $booking->code), ['method' => 'transfer']);
+
+        $payment = Payment::query()->latest('id')->firstOrFail();
+
+        $this->actingAs($user)
+            ->post(route('payment.proof', $payment->transaction_ref), [
+                'proof' => UploadedFile::fake()->create('bukti-transfer.jpg', 100, 'image/jpeg'),
+            ]);
+
+        $booking->update(['expires_at' => now()->subMinute()]);
+
+        $this->actingAs($admin)
+            ->from(route('admin.payments.index'))
+            ->post(route('admin.payments.verify', $payment->transaction_ref))
+            ->assertRedirect(route('admin.payments.index'))
+            ->assertSessionHasErrors('payment');
+
+        $this->assertSame(Booking::STATUS_EXPIRED, $booking->fresh()->status);
+        $this->assertSame(Payment::STATUS_EXPIRED, $payment->fresh()->status);
+        $this->assertNull($payment->fresh()->verified_at);
+        $this->assertSame(0, $booking->tickets()->count());
     }
 
     public function test_riwayat_menampilkan_booking_sesuai_tab(): void

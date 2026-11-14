@@ -1,0 +1,13 @@
+Validasi berkas OOXML — Sprint 3
+Kriteria: ZIP valid, [Content_Types].xml + word/document.xml + _rels/.rels ada, seluruh XML/RELS dapat diparse.
+
+S3-00_ SPRINT 3 OVERVIEW.docx | LULUS | media=0 | 10.0 KB | missing= | xml_error=
+S3-01_ AUTHENTICATION & AUTHORIZATION INTEGRATION.docx | LULUS | media=0 | 11.6 KB | missing= | xml_error=
+S3-02_ GLOBAL ERROR HANDLING.docx | LULUS | media=2 | 233.0 KB | missing= | xml_error=
+S3-03_ FUNCTIONAL TESTING.docx | LULUS | media=0 | 10.2 KB | missing= | xml_error=
+S3-04_ BUG FIXING & ISSUE RESOLUTION.docx | LULUS | media=0 | 11.3 KB | missing= | xml_error=
+S3-05_ RESPONSIVE & MOBILE QUALITY CHECK.docx | LULUS | media=12 | 922.3 KB | missing= | xml_error=
+S3-06_ BASIC SECURITY IMPLEMENTATION.docx | LULUS | media=0 | 10.8 KB | missing= | xml_error=
+S3-07_ PERFORMANCE & USABILITY REFINEMENT.docx | LULUS | media=0 | 10.2 KB | missing= | xml_error=
+
+Seluruh 8 dokumen dinyatakan valid dan dapat dibuka sebagai OOXML.

@@ -15,7 +15,7 @@
             <p class="font-semibold">Hai, {{ $user?->name ?? 'Tamu' }} 👋</p>
             <p class="text-xs text-gray-500">Mau liburan ke mana hari ini?</p>
         </div>
-        <a href="{{ $user ? route('profile.edit') : route('login') }}" class="w-9 h-9 rounded-full bg-primary text-white grid place-items-center text-sm font-semibold">
+        <a href="{{ $user ? route('profile.edit') : route('login') }}" aria-label="{{ $user ? 'Buka profil' : 'Masuk ke akun' }}" class="grid h-11 w-11 place-items-center rounded-full bg-primary text-sm font-semibold text-white">
             {{ strtoupper(substr($user?->name ?? 'T', 0, 1)) }}
         </a>
     </div>
@@ -41,7 +41,7 @@
         <div class="flex gap-3 overflow-x-auto pb-2">
             @foreach ($destinations as $destination)
                 <a href="{{ route('katalog.detail', $destination->slug) }}" class="min-w-[46%] border rounded-2xl overflow-hidden">
-                    <img src="{{ $img($destination) }}" class="h-24 w-full object-cover" alt="{{ $destination->name }}">
+                    <img src="{{ $img($destination) }}" loading="lazy" decoding="async" class="h-24 w-full object-cover" alt="{{ $destination->name }}">
                     <div class="p-2">
                         <p class="text-xs font-semibold truncate">{{ $destination->name }}</p>
                         <p class="text-[10px] text-gray-500 truncate">{{ $destination->location }}</p>

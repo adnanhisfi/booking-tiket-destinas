@@ -1,0 +1,104 @@
+﻿
+  GET|HEAD        / ...................................................... katalog.beranda ÔÇ║ CatalogController@beranda
+  GET|HEAD        admin ........................................ admin.dashboard ÔÇ║ Web\Admin\DashboardController@index
+  GET|HEAD        admin/booking ............................. admin.bookings.index ÔÇ║ Web\Admin\BookingController@index
+  GET|HEAD        admin/booking/export .................... admin.bookings.export ÔÇ║ Web\Admin\BookingController@export
+  GET|HEAD        admin/booking/{booking} ..................... admin.bookings.show ÔÇ║ Web\Admin\BookingController@show
+  POST            admin/booking/{booking}/batal ........... admin.bookings.cancel ÔÇ║ Web\Admin\BookingController@cancel
+  POST            admin/booking/{booking}/selesai ..... admin.bookings.complete ÔÇ║ Web\Admin\BookingController@complete
+  GET|HEAD        admin/destinasi ................... admin.destinations.index ÔÇ║ Web\Admin\DestinationController@index
+  POST            admin/destinasi ................... admin.destinations.store ÔÇ║ Web\Admin\DestinationController@store
+  GET|HEAD        admin/destinasi/create .......... admin.destinations.create ÔÇ║ Web\Admin\DestinationController@create
+  PUT             admin/destinasi/{destination} ... admin.destinations.update ÔÇ║ Web\Admin\DestinationController@update
+  DELETE          admin/destinasi/{destination} . admin.destinations.destroy ÔÇ║ Web\Admin\DestinationController@destroy
+  GET|HEAD        admin/destinasi/{destination}/edit .. admin.destinations.edit ÔÇ║ Web\Admin\DestinationController@edit
+  GET|HEAD        admin/kuota ................................... admin.quotas.index ÔÇ║ Web\Admin\QuotaController@index
+  POST            admin/kuota ................................... admin.quotas.store ÔÇ║ Web\Admin\QuotaController@store
+  GET|HEAD        admin/laporan ............................... admin.reports.index ÔÇ║ Web\Admin\ReportController@index
+  GET|HEAD        admin/laporan/unduh ....................... admin.reports.export ÔÇ║ Web\Admin\ReportController@export
+  GET|HEAD        admin/login ........................................ admin.login ÔÇ║ Web\AuthController@showAdminLogin
+  POST            admin/login .................................... admin.login.attempt ÔÇ║ Web\AuthController@adminLogin
+  GET|HEAD        admin/pembayaran .......................... admin.payments.index ÔÇ║ Web\Admin\PaymentController@index
+  POST            admin/pembayaran/{payment}/verifikasi ... admin.payments.verify ÔÇ║ Web\Admin\PaymentController@verify
+  GET|HEAD        admin/scan ....................................... admin.scan.index ÔÇ║ Web\Admin\ScanController@index
+  POST            admin/scan ..................................... admin.scan.validate ÔÇ║ Web\Admin\ScanController@scan
+  GET|HEAD        admin/tiket ............................. admin.tickets.index ÔÇ║ Web\Admin\TicketTypeController@index
+  POST            admin/tiket ............................. admin.tickets.store ÔÇ║ Web\Admin\TicketTypeController@store
+  GET|HEAD        admin/tiket/create .................... admin.tickets.create ÔÇ║ Web\Admin\TicketTypeController@create
+  PUT             admin/tiket/{ticketType} .............. admin.tickets.update ÔÇ║ Web\Admin\TicketTypeController@update
+  DELETE          admin/tiket/{ticketType} ............ admin.tickets.destroy ÔÇ║ Web\Admin\TicketTypeController@destroy
+  GET|HEAD        admin/tiket/{ticketType}/edit ............. admin.tickets.edit ÔÇ║ Web\Admin\TicketTypeController@edit
+  GET|HEAD        api/v1/admin/availability ................................ Api\V1\Admin\AvailabilityController@index
+  PUT             api/v1/admin/availability ............................... Api\V1\Admin\AvailabilityController@upsert
+  GET|HEAD        api/v1/admin/bookings ......................................... Api\V1\Admin\BookingController@index
+  GET|HEAD        api/v1/admin/bookings/export ................................. Api\V1\Admin\BookingController@export
+  GET|HEAD        api/v1/admin/bookings/{booking} ................................ Api\V1\Admin\BookingController@show
+  GET|HEAD        api/v1/admin/categories ................... categories.index ÔÇ║ Api\V1\Admin\CategoryController@index
+  POST            api/v1/admin/categories ................... categories.store ÔÇ║ Api\V1\Admin\CategoryController@store
+  PUT|PATCH       api/v1/admin/categories/{category} ...... categories.update ÔÇ║ Api\V1\Admin\CategoryController@update
+  DELETE          api/v1/admin/categories/{category} .... categories.destroy ÔÇ║ Api\V1\Admin\CategoryController@destroy
+  GET|HEAD        api/v1/admin/dashboard ..................................... Api\V1\Admin\ReportController@dashboard
+  GET|HEAD        api/v1/admin/destinations ............ destinations.index ÔÇ║ Api\V1\Admin\DestinationController@index
+  POST            api/v1/admin/destinations ............ destinations.store ÔÇ║ Api\V1\Admin\DestinationController@store
+  GET|HEAD        api/v1/admin/destinations/{destination} destinations.show ÔÇ║ Api\V1\Admin\DestinationController@show
+  PUT|PATCH       api/v1/admin/destinations/{destination} destinations.update ÔÇ║ Api\V1\Admin\DestinationController@upÔÇª
+  DELETE          api/v1/admin/destinations/{destination} destinations.destroy ÔÇ║ Api\V1\Admin\DestinationController@dÔÇª
+  GET|HEAD        api/v1/admin/payments ......................................... Api\V1\Admin\PaymentController@index
+  POST            api/v1/admin/payments/{payment}/verify ....................... Api\V1\Admin\PaymentController@verify
+  GET|HEAD        api/v1/admin/reports/sales ..................................... Api\V1\Admin\ReportController@sales
+  GET|HEAD        api/v1/admin/tickets ....................... tickets.index ÔÇ║ Api\V1\Admin\TicketTypeController@index
+  POST            api/v1/admin/tickets ....................... tickets.store ÔÇ║ Api\V1\Admin\TicketTypeController@store
+  POST            api/v1/admin/tickets/validate ............................... Api\V1\Admin\TicketController@validate
+  PUT|PATCH       api/v1/admin/tickets/{ticket} ............ tickets.update ÔÇ║ Api\V1\Admin\TicketTypeController@update
+  DELETE          api/v1/admin/tickets/{ticket} .......... tickets.destroy ÔÇ║ Api\V1\Admin\TicketTypeController@destroy
+  GET|HEAD        api/v1/admin/vouchers ........................ vouchers.index ÔÇ║ Api\V1\Admin\VoucherController@index
+  POST            api/v1/admin/vouchers ........................ vouchers.store ÔÇ║ Api\V1\Admin\VoucherController@store
+  PUT|PATCH       api/v1/admin/vouchers/{voucher} ............ vouchers.update ÔÇ║ Api\V1\Admin\VoucherController@update
+  DELETE          api/v1/admin/vouchers/{voucher} .......... vouchers.destroy ÔÇ║ Api\V1\Admin\VoucherController@destroy
+  POST            api/v1/auth/login ...................................................... Api\V1\AuthController@login
+  POST            api/v1/auth/logout .................................................... Api\V1\AuthController@logout
+  POST            api/v1/auth/register ................................................ Api\V1\AuthController@register
+  POST            api/v1/bookings ..................................................... Api\V1\BookingController@store
+  GET|HEAD        api/v1/bookings ..................................................... Api\V1\BookingController@index
+  GET|HEAD        api/v1/bookings/{booking} ............................................ Api\V1\BookingController@show
+  POST            api/v1/bookings/{booking}/cancel ................................... Api\V1\BookingController@cancel
+  POST            api/v1/bookings/{booking}/payments .................................. Api\V1\PaymentController@store
+  GET|HEAD        api/v1/categories .................................................. Api\V1\CategoryController@index
+  GET|HEAD        api/v1/destinations ............................................. Api\V1\DestinationController@index
+  GET|HEAD        api/v1/destinations/{destination} ................................ Api\V1\DestinationController@show
+  POST            api/v1/destinations/{destination}/reviews ............................ Api\V1\ReviewController@store
+  GET|HEAD        api/v1/destinations/{destination}/tickets ..................... Api\V1\DestinationController@tickets
+  GET|HEAD        api/v1/me ................................................................. Api\V1\AuthController@me
+  PUT             api/v1/me ...................................................... Api\V1\AuthController@updateProfile
+  GET|HEAD        api/v1/me/tickets .................................................... Api\V1\TicketController@index
+  GET|HEAD        api/v1/payments/webhook .......................................................... routes/api.php:29
+  POST            api/v1/payments/webhook ........................................... Api\V1\PaymentController@webhook
+  GET|HEAD        api/v1/payments/{payment} ............................................ Api\V1\PaymentController@show
+  POST            api/v1/payments/{payment}/proof ..................................... Api\V1\PaymentController@proof
+  GET|HEAD        api/v1/tickets/{ticket} ............................................... Api\V1\TicketController@show
+  GET|HEAD        api/v1/tickets/{ticket}/qr .............................................. Api\V1\TicketController@qr
+  POST            api/v1/vouchers/check ............................................... Api\V1\VoucherController@check
+  GET|HEAD        api/v1/{fallbackPlaceholder} .................................................... routes/api.php:103
+  GET|HEAD        booking/{booking} ........................................ booking.show ÔÇ║ Web\BookingController@show
+  POST            booking/{booking}/batal .............................. booking.cancel ÔÇ║ Web\BookingController@cancel
+  POST            booking/{booking}/bayar ................................ payment.store ÔÇ║ Web\PaymentController@store
+  GET|HEAD        booking/{booking}/e-ticket ................................. ticket.show ÔÇ║ Web\TicketController@show
+  GET|HEAD        booking/{booking}/e-ticket/{ticket}/qr ......................... ticket.qr ÔÇ║ Web\TicketController@qr
+  GET|HEAD        booking/{booking}/status ............................. booking.status ÔÇ║ Web\BookingController@status
+  POST            daftar ...................................................... register ÔÇ║ Web\AuthController@register
+  GET|HEAD        destinasi .................................................. katalog.index ÔÇ║ CatalogController@index
+  GET|HEAD        destinasi/{destination} .................................. katalog.detail ÔÇ║ CatalogController@detail
+  GET|HEAD        destinasi/{destination}/pesan ........................ booking.create ÔÇ║ Web\BookingController@create
+  POST            destinasi/{destination}/pesan .......................... booking.store ÔÇ║ Web\BookingController@store
+  POST            destinasi/{destination}/ulasan ........................... review.store ÔÇ║ Web\ReviewController@store
+  POST            logout .......................................................... logout ÔÇ║ Web\AuthController@logout
+  GET|HEAD        masuk ......................................................... login ÔÇ║ Web\AuthController@showLogin
+  POST            masuk ..................................................... login.attempt ÔÇ║ Web\AuthController@login
+  GET|HEAD        pembayaran/{payment} ..................................... payment.show ÔÇ║ Web\PaymentController@show
+  POST            pembayaran/{payment}/bukti ............................. payment.proof ÔÇ║ Web\PaymentController@proof
+  GET|HEAD        profil ................................................... profile.edit ÔÇ║ Web\ProfileController@edit
+  PUT             profil ............................................... profile.update ÔÇ║ Web\ProfileController@update
+  GET|HEAD        riwayat ............................................ booking.history ÔÇ║ Web\BookingController@history
+
+                                                                                                  Showing [100] routes
+

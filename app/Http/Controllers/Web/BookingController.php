@@ -27,9 +27,7 @@ class BookingController extends Controller
         abort_if($destination->status !== Destination::STATUS_ACTIVE, 404);
 
         $maxDate = today()->addDays((int) config('payment.max_advance_days'));
-        $visitDate = $request->filled('tanggal')
-            ? Carbon::parse($request->input('tanggal'))->startOfDay()
-            : today();
+        $visitDate = $this->parseVisitDate($request->input('tanggal'));
 
         if ($visitDate->lt(today()) || $visitDate->gt($maxDate)) {
             $visitDate = today();
@@ -153,6 +151,25 @@ class BookingController extends Controller
         return redirect()
             ->route('booking.show', ['booking' => $booking->code])
             ->with('ok', 'Booking berhasil dibatalkan dan kuota tiket dikembalikan.');
+    }
+
+    /**
+     * Parse tanggal kunjungan dari query string secara aman.
+     * Input tidak valid dikembalikan ke hari ini alih-alih memicu error 500.
+     */
+    protected function parseVisitDate(mixed $value): Carbon
+    {
+        if (! is_string($value) || trim($value) === '') {
+            return today();
+        }
+
+        try {
+            $date = Carbon::createFromFormat('Y-m-d', $value);
+
+            return $date instanceof Carbon ? $date->startOfDay() : today();
+        } catch (\Throwable) {
+            return today();
+        }
     }
 
     protected function authorizeOwner(Request $request, Booking $booking): void

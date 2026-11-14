@@ -4,7 +4,7 @@
 @section('sub', 'Validasi QR code e-ticket pengunjung di pintu masuk')
 
 @section('content')
-<div class="grid grid-cols-2 gap-4">
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
     <div class="bg-white rounded-2xl border p-6">
         <h2 class="font-semibold mb-3">Validasi Kode Tiket</h2>
         <p class="text-sm text-gray-500 mb-4">
@@ -53,7 +53,7 @@
                 </div>
             @endif
         @else
-            <div class="h-56 grid place-items-center text-center text-gray-400 text-sm">
+            <div class="grid h-56 place-items-center text-center text-sm text-gray-400">
                 Hasil validasi akan muncul di sini.
             </div>
         @endif

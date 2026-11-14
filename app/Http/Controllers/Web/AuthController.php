@@ -5,16 +5,19 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function showLogin(): View
+    public function showLogin(): Response
     {
-        return view('auth.login');
+        return response()
+            ->view('auth.login')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache');
     }
 
     public function login(Request $request): RedirectResponse
@@ -81,9 +84,12 @@ class AuthController extends Controller
             ->with('ok', 'Registrasi berhasil. Selamat datang di JelajahKu!');
     }
 
-    public function showAdminLogin(): View
+    public function showAdminLogin(): Response
     {
-        return view('auth.admin-login');
+        return response()
+            ->view('auth.admin-login')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+            ->header('Pragma', 'no-cache');
     }
 
     public function adminLogin(Request $request): RedirectResponse
@@ -116,7 +122,7 @@ class AuthController extends Controller
         $request->session()->regenerate();
         $request->user()->update(['last_login_at' => now()]);
 
-        return redirect()->intended(route('admin.dashboard'));
+        return redirect()->route('admin.dashboard');
     }
 
     public function logout(Request $request): RedirectResponse

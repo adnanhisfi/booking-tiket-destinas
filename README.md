@@ -227,4 +227,23 @@ app/
 
 ## Dokumentasi Sprint 2
 
-Laporan tugas Sprint 2 (S2-03 s/d S2-06) dalam format `.docx` tersedia di folder `dokumentasi/`.
+Laporan tugas Sprint 2 (S2-03 s/d S2-06) tersedia di folder `dokumentasi/` dalam format `.docx` dan `.pdf`. Versi gabungan seluruh dokumen Sprint 2 ada di [`dokumentasi/S2_LENGKAP_SPRINT_2.pdf`](dokumentasi/S2_LENGKAP_SPRINT_2.pdf).
+
+## Dokumentasi Sprint 3
+
+Bukti implementasi dan laporan Sprint 3 tersedia di [`dokumentasi/Sprint 3/`](dokumentasi/Sprint%203/README.md):
+
+| Kode | Dokumen |
+|------|---------|
+| S3-00 | Sprint 3 Overview |
+| S3-01 | Authentication & Authorization Integration |
+| S3-02 | Global Error Handling |
+| S3-03 | Functional Testing |
+| S3-04 | Bug Fixing & Issue Resolution |
+| S3-05 | Responsive & Mobile Quality Check |
+| S3-06 | Basic Security Implementation |
+| S3-07 | Performance & Usability Refinement |
+
+Hasil verifikasi akhir Sprint 3: **88 tes lulus (455 assertion)**, Laravel Pint lulus,
+dan seluruh Blade view berhasil dikompilasi. Rincian bukti HTTP, screenshot, dan cara
+menjalankan ulang pengujian ada di README folder tersebut.

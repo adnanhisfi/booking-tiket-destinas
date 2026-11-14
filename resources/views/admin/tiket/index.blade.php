@@ -25,7 +25,8 @@
         <a href="{{ route('admin.tickets.index') }}" class="px-2 py-2 text-sm text-gray-400">Reset</a>
     </form>
 
-    <table class="w-full text-sm">
+    <div class="overflow-x-auto">
+    <table class="w-full min-w-[720px] text-sm">
         <thead class="text-xs text-gray-400 text-left">
             <tr><th class="py-2">JENIS TIKET</th><th>DESTINASI</th><th>HARGA</th><th>KUOTA HARIAN</th><th>STATUS</th><th>AKSI</th></tr>
         </thead>
@@ -57,6 +58,7 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
     <div class="mt-4">{{ $ticketTypes->links() }}</div>
 </div>

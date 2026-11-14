@@ -22,13 +22,11 @@ class ReportController extends Controller
             $period = 30;
         }
 
-        $from = $request->filled('from')
-            ? Carbon::parse($request->input('from'))->startOfDay()
-            : now()->subDays($period - 1)->startOfDay();
+        $from = $this->parseDate($request->input('from'))?->startOfDay()
+            ?? now()->subDays($period - 1)->startOfDay();
 
-        $to = $request->filled('to')
-            ? Carbon::parse($request->input('to'))->endOfDay()
-            : now()->endOfDay();
+        $to = $this->parseDate($request->input('to'))?->endOfDay()
+            ?? now()->endOfDay();
 
         if ($from->gt($to)) {
             [$from, $to] = [$to->copy()->startOfDay(), $from->copy()->endOfDay()];
@@ -75,6 +73,24 @@ class ReportController extends Controller
         }, 'laporan-penjualan-'.now()->format('Ymd-His').'.csv', [
             'Content-Type' => 'text/csv',
         ]);
+    }
+
+    /**
+     * Parse filter tanggal secara aman; nilai tidak valid diabaikan.
+     */
+    protected function parseDate(mixed $value): ?Carbon
+    {
+        if (! is_string($value) || trim($value) === '') {
+            return null;
+        }
+
+        try {
+            $date = Carbon::createFromFormat('Y-m-d', $value);
+
+            return $date instanceof Carbon ? $date : null;
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     /**

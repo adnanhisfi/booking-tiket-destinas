@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Host: 127.0.0.1:8099
+Connection: close
+X-Powered-By: PHP/8.2.12
+Content-Type: text/html; charset=utf-8
+Cache-Control: no-cache, private
+Date: Sat, 07 Nov 2026 04:01:21 GMT
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=()
+Cross-Origin-Opener-Policy: same-origin
+X-Permitted-Cross-Domain-Policies: none
+Set-Cookie: XSRF-TOKEN=eyJpdiI6IjZ1eXdxUWFoZDQxT3kyWDNmQXdzM3c9PSIsInZhbHVlIjoiUlV4ZTAxNDhoQWRlSGZqUU1wSEhpd01HL0s5dStQUStxalpTMHY1ZzdpOXpUR0pBUHdLOXhSRE92VlRacE0xVVNrYXBDKzlBSVRaQ1F6QUpISjFJTGc3cHU3dTMva2NsbnBQY1lVaXVsNkEzU2MxUSszMkRMbWQ0ajlFaDN6U3QiLCJtYWMiOiI2ZDljMjhjNzNhZWI4Njk0YjQ5YzZjNGZiNGU3NWJlMmY0MmJkOWJjOGI1ODAzYjFiN2Y3NjMyYzFlMmNjMDBlIiwidGFnIjoiIn0%3D; expires=Sat, 07 Nov 2026 06:01:21 GMT; Max-Age=7200; path=/; samesite=lax
+Set-Cookie: jelajahku-session=eyJpdiI6IkV0TXFwRCtyeS9jbldNMGFhcXdYTmc9PSIsInZhbHVlIjoiYWZBZFdidjFHbTduSGl6MWFTb1EvZm5UQlBmTUVGenZmdk9jR3JMTjZzRk1YVHFtK0pWZFBtV015WWQzZjlYaXlXNENCbERhTThrK3kydTFFQTZLTUNnK2l4VDhpY1puaVl3NWxzbWdycWdMbm5ZWjc4dGxmbWZPNndRb05zMzUiLCJtYWMiOiJiYTViZTYyMmZiMjg3OGY5ZTNjYjg3ODdkODZlM2YwNWQyYTc3NTUxMzczZjFhNzZmM2VkNTIyZDdmMjQ4ZmY0IiwidGFnIjoiIn0%3D; expires=Sat, 07 Nov 2026 06:01:21 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+

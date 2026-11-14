@@ -32,9 +32,13 @@ class ManualTransferGateway implements GatewayInterface
         ];
     }
 
+    /**
+     * Transfer manual tidak memiliki callback gateway. Pembayaran hanya boleh
+     * dilunasi melalui verifikasi bukti transfer oleh admin, bukan webhook.
+     */
     public function verifySignature(string $rawBody, array $headers): bool
     {
-        return true;
+        return false;
     }
 
     public function parseWebhook(array $payload): array

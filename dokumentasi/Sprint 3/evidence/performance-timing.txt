@@ -1,0 +1,22 @@
+﻿Performance timing (5 runs):
+URL: http://127.0.0.1:8099/
+run 1: status=200 time_total=0.626022s size=12974B
+run 2: status=200 time_total=0.659933s size=12974B
+run 3: status=200 time_total=0.502453s size=12974B
+run 4: status=200 time_total=0.435981s size=12974B
+run 5: status=200 time_total=0.479906s size=12974B
+
+URL: http://127.0.0.1:8099/destinasi
+run 1: status=200 time_total=0.490716s size=16531B
+run 2: status=200 time_total=0.591616s size=16531B
+run 3: status=200 time_total=0.460827s size=16531B
+run 4: status=200 time_total=0.501063s size=16531B
+run 5: status=200 time_total=0.470530s size=16531B
+
+URL: http://127.0.0.1:8099/api/v1/categories
+run 1: status=200 time_total=0.444958s size=494B
+run 2: status=200 time_total=0.493187s size=494B
+run 3: status=200 time_total=0.406842s size=494B
+run 4: status=200 time_total=0.428425s size=494B
+run 5: status=200 time_total=0.407794s size=494B
+

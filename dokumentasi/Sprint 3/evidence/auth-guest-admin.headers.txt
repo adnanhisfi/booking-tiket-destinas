@@ -1,0 +1,17 @@
+HTTP/1.1 302 Found
+Host: 127.0.0.1:8099
+Connection: close
+X-Powered-By: PHP/8.2.12
+Cache-Control: no-cache, private
+Date: Sat, 07 Nov 2026 04:11:51 GMT
+Location: http://127.0.0.1:8099/admin/login
+Content-Type: text/html; charset=utf-8
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=()
+Cross-Origin-Opener-Policy: same-origin
+X-Permitted-Cross-Domain-Policies: none
+Set-Cookie: XSRF-TOKEN=eyJpdiI6Im92M291UHVuVlpBaWlRek8rajJ3RHc9PSIsInZhbHVlIjoiak5NMTIvRUFLT0xGUzl6N1VXWTZ3dUUzT0FIWUdhYkFMRHh1eXRGM1ZDWlQ2UzZYeFFIZ0dVU3JWSTI3QTlFSThmTWtWSTZiMGtORjRZWHBjTDJoSUcwa0llK0owSE5ESmFXbnBtcFFOT0haMmlreDlxRE9vcm9saXAvRmlJeGsiLCJtYWMiOiJlYTFjN2IwNzdmM2MwOGZjZTQzZWRkNzczMGM2MzU3ODc2Yjc5NDhhYjQ4MjYwZDNlOGQyYzI2M2I4YzY1NTRiIiwidGFnIjoiIn0%3D; expires=Sat, 07 Nov 2026 06:11:51 GMT; Max-Age=7200; path=/; samesite=lax
+Set-Cookie: jelajahku-session=eyJpdiI6IlZtSkVnUXZ5Y3VDT2JublU1eGJZN1E9PSIsInZhbHVlIjoialFiQzIwZFd2ZHl6cVJUWmMrS1FTOVpQMWY2NGJXcVN5Nk1WWUFTZ3dWZlcrZjFvT3IwODkvUVJQM0FDTkxWNFJnZHhFTXcrSHdxNkRsS3BBMlpDZFV6V0d5cnltT1ZDODdKUS9SMzVMcmtOZE9jRnYyS0VkWGRKZXhDaCsxQVEiLCJtYWMiOiI0NzFlMjI3YzAyYTAzNmU4NTI4ZmI5MTdiMmRhZTZlYzI4MTBjMjFhODllZmM1ZDFmMjg0ZDAxZTJmYmU2ZDNjIiwidGFnIjoiIn0%3D; expires=Sat, 07 Nov 2026 06:11:51 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+

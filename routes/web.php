@@ -33,11 +33,17 @@ Route::get('/destinasi/{destination:slug}', [CatalogController::class, 'detail']
 */
 Route::middleware('guest')->group(function () {
     Route::get('/masuk', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/masuk', [AuthController::class, 'login'])->name('login.attempt');
-    Route::post('/daftar', [AuthController::class, 'register'])->name('register');
+    Route::post('/masuk', [AuthController::class, 'login'])
+        ->middleware('throttle:login')
+        ->name('login.attempt');
+    Route::post('/daftar', [AuthController::class, 'register'])
+        ->middleware('throttle:register')
+        ->name('register');
 
     Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('admin.login');
-    Route::post('/admin/login', [AuthController::class, 'adminLogin'])->name('admin.login.attempt');
+    Route::post('/admin/login', [AuthController::class, 'adminLogin'])
+        ->middleware('throttle:login')
+        ->name('admin.login.attempt');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])

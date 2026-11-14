@@ -17,7 +17,7 @@ class CatalogController extends Controller
      */
     public function beranda(Request $request): View
     {
-        $categories = Category::query()->orderBy('name')->get(['id', 'name', 'slug']);
+        $categories = Category::cachedList();
 
         $destinations = Destination::query()
             ->active()
@@ -52,7 +52,7 @@ class CatalogController extends Controller
             'sort' => ['nullable', 'in:featured,price_asc,price_desc,name'],
         ]);
 
-        $categories = Category::query()->orderBy('name')->get(['id', 'name', 'slug']);
+        $categories = Category::cachedList();
 
         $category = $filters['kategori'] ?? $filters['category'] ?? null;
         $location = $filters['location'] ?? null;
@@ -112,8 +112,13 @@ class CatalogController extends Controller
             'reviews' => fn ($q) => $q->with('user:id,name')->latest()->limit(20),
         ]);
 
-        $destination->setAttribute('rating_avg', round((float) $destination->reviews()->avg('rating'), 1));
-        $destination->setAttribute('reviews_count', $destination->reviews()->count());
+        // Satu query agregat untuk rating & jumlah ulasan (menghindari dua query terpisah).
+        $reviewStats = $destination->reviews()
+            ->selectRaw('AVG(rating) as rating_avg, COUNT(*) as reviews_count')
+            ->first();
+
+        $destination->setAttribute('rating_avg', round((float) ($reviewStats->rating_avg ?? 0), 1));
+        $destination->setAttribute('reviews_count', (int) ($reviewStats->reviews_count ?? 0));
         $destination->setAttribute('min_price', $destination->ticketTypes->min('price'));
 
         $user = $request->user();

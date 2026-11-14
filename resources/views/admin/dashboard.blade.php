@@ -4,7 +4,7 @@
 @section('sub', 'Ringkasan aktivitas JelajahKu hari ini')
 
 @section('content')
-<div class="grid grid-cols-4 gap-4 mb-6">
+<div class="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
     <div class="bg-white rounded-2xl border p-5">
         <p class="text-sm text-gray-500">Total Destinasi</p>
         <p class="text-2xl font-bold mt-2">{{ number_format($totalDestinations, 0, ',', '.') }}</p>
@@ -29,32 +29,34 @@
     </div>
 </div>
 
-<div class="grid grid-cols-3 gap-4">
-    <div class="col-span-2 bg-white rounded-2xl border p-5">
+<div class="grid grid-cols-1 gap-4 xl:grid-cols-3">
+    <div class="bg-white rounded-2xl border p-5 xl:col-span-2">
         <div class="flex justify-between mb-3">
             <h2 class="font-semibold">Booking Terbaru</h2>
             <a href="{{ route('admin.bookings.index') }}" class="text-sm text-primary">Lihat semua ›</a>
         </div>
-        <table class="w-full text-sm">
-            <thead class="text-xs text-gray-400 text-left">
-                <tr><th class="py-2">KODE</th><th>PENGUNJUNG</th><th>DESTINASI</th><th>TOTAL</th><th>STATUS</th></tr>
-            </thead>
-            <tbody>
-                @forelse ($recent as $booking)
-                    <tr class="border-t">
-                        <td class="py-3 font-medium">
-                            <a href="{{ route('admin.bookings.show', $booking->code) }}" class="text-primary">{{ $booking->code }}</a>
-                        </td>
-                        <td>{{ $booking->customer_name }}</td>
-                        <td>{{ $booking->destination?->name ?? '-' }}</td>
-                        <td>Rp {{ number_format((float) $booking->total_amount, 0, ',', '.') }}</td>
-                        <td>@include('partials.badge', ['s' => $booking->status])</td>
-                    </tr>
-                @empty
-                    <tr><td colspan="5" class="py-6 text-center text-gray-400">Belum ada booking.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-[640px] text-sm">
+                <thead class="text-xs text-gray-400 text-left">
+                    <tr><th class="py-2">KODE</th><th>PENGUNJUNG</th><th>DESTINASI</th><th>TOTAL</th><th>STATUS</th></tr>
+                </thead>
+                <tbody>
+                    @forelse ($recent as $booking)
+                        <tr class="border-t">
+                            <td class="py-3 font-medium">
+                                <a href="{{ route('admin.bookings.show', $booking->code) }}" class="text-primary">{{ $booking->code }}</a>
+                            </td>
+                            <td>{{ $booking->customer_name }}</td>
+                            <td>{{ $booking->destination?->name ?? '-' }}</td>
+                            <td>Rp {{ number_format((float) $booking->total_amount, 0, ',', '.') }}</td>
+                            <td>@include('partials.badge', ['s' => $booking->status])</td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="5" class="py-6 text-center text-gray-400">Belum ada booking.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="space-y-4">

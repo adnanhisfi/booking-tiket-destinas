@@ -4,8 +4,8 @@
 @section('sub', 'Atur batas kuota tiket harian untuk mencegah overbooking')
 
 @section('content')
-<div class="grid grid-cols-3 gap-4 mb-6">
-    <div class="col-span-1 bg-white rounded-2xl border p-5">
+<div class="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
+    <div class="bg-white rounded-2xl border p-5">
         <h2 class="font-semibold mb-3">Atur Kuota</h2>
         <form method="POST" action="{{ route('admin.quotas.store') }}" class="space-y-3">
             @csrf
@@ -37,7 +37,7 @@
         </p>
     </div>
 
-    <div class="col-span-2 bg-white rounded-2xl border p-5">
+    <div class="bg-white rounded-2xl border p-5 lg:col-span-2">
         <form method="GET" action="{{ route('admin.quotas.index') }}" class="flex flex-wrap gap-2 mb-4">
             <select name="destination_id" class="border rounded-xl px-3 py-2 text-sm">
                 <option value="">Semua destinasi</option>
@@ -56,7 +56,8 @@
             <button class="border rounded-xl px-4 py-2 text-sm text-gray-600">Filter</button>
         </form>
 
-        <table class="w-full text-sm">
+        <div class="overflow-x-auto">
+        <table class="w-full min-w-[640px] text-sm">
             <thead class="text-xs text-gray-400 text-left">
                 <tr><th class="py-2">TANGGAL</th><th>JENIS TIKET</th><th>DESTINASI</th><th>KUOTA</th><th>TERJUAL</th><th>SISA</th></tr>
             </thead>
@@ -81,6 +82,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
 
         <div class="mt-4">{{ $rows->links() }}</div>
     </div>

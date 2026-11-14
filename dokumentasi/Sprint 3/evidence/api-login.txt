@@ -1,0 +1,31 @@
+﻿### api-login -> POST http://127.0.0.1:8099/api/v1/auth/login
+--- RESPONSE HEADERS ---
+HTTP/1.1 200 OK
+Host: 127.0.0.1:8099
+Connection: close
+X-Powered-By: PHP/8.2.12
+Cache-Control: no-cache, private
+Date: Sat, 07 Nov 2026 04:12:58 GMT
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=()
+Cross-Origin-Opener-Policy: same-origin
+X-Permitted-Cross-Domain-Policies: none
+X-RateLimit-Limit: 5
+X-RateLimit-Remaining: 3
+Access-Control-Allow-Origin: *
+
+--- RESPONSE BODY (token disamarkan) ---
+{
+    "message":  "Login berhasil.",
+    "user":  {
+                 "id":  2,
+                 "name":  "Budi Wisatawan",
+                 "email":  "wisatawan@jelajahku.test",
+                 "phone":  "081200000002",
+                 "role":  "customer"
+             },
+    "token":  "1|XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+}

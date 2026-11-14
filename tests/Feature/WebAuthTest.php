@@ -20,6 +20,7 @@ class WebAuthTest extends TestCase
 
         $this->get('/admin/login')
             ->assertOk()
+            ->assertHeader('Pragma', 'no-cache')
             ->assertSee('Masuk Admin');
     }
 
@@ -87,10 +88,11 @@ class WebAuthTest extends TestCase
     {
         $this->admin(['email' => 'admin-web@example.test']);
 
-        $this->post('/admin/login', [
-            'email' => 'admin-web@example.test',
-            'password' => 'password',
-        ])->assertRedirect(route('admin.dashboard'));
+        $this->withSession(['url.intended' => route('booking.history')])
+            ->post('/admin/login', [
+                'email' => 'admin-web@example.test',
+                'password' => 'password',
+            ])->assertRedirect(route('admin.dashboard'));
 
         $this->assertAuthenticated();
 

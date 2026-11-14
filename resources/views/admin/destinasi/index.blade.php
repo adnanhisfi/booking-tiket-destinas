@@ -9,8 +9,8 @@
 
 @section('content')
 <div class="bg-white rounded-2xl border p-5">
-    <form method="GET" action="{{ route('admin.destinations.index') }}" class="flex flex-wrap gap-3 mb-4">
-        <input name="q" value="{{ request('q') }}" placeholder="Cari destinasi..." class="border rounded-xl px-4 py-2 text-sm w-72">
+    <form method="GET" action="{{ route('admin.destinations.index') }}" class="mb-4 flex flex-wrap gap-3">
+        <input name="q" value="{{ request('q') }}" placeholder="Cari destinasi..." class="w-full border rounded-xl px-4 py-2 text-sm sm:w-72">
         <select name="category_id" class="border rounded-xl px-3 py-2 text-sm">
             <option value="">Semua kategori</option>
             @foreach ($categories as $category)
@@ -26,7 +26,8 @@
         <a href="{{ route('admin.destinations.index') }}" class="px-2 py-2 text-sm text-gray-400">Reset</a>
     </form>
 
-    <table class="w-full text-sm">
+    <div class="overflow-x-auto">
+    <table class="w-full min-w-[820px] text-sm">
         <thead class="text-xs text-gray-400 text-left">
             <tr><th class="py-2">DESTINASI</th><th>KATEGORI</th><th>RATING</th><th>HARGA TIKET</th><th>STATUS</th><th>AKSI</th></tr>
         </thead>
@@ -40,7 +41,7 @@
                 <tr class="border-t">
                     <td class="py-3">
                         <div class="flex items-center gap-3">
-                            <img src="{{ $thumb }}" class="w-11 h-11 rounded-lg object-cover" alt="{{ $destination->name }}">
+                            <img src="{{ $thumb }}" loading="lazy" decoding="async" class="h-11 w-11 rounded-lg object-cover" alt="{{ $destination->name }}">
                             <div>
                                 <p class="font-medium">{{ $destination->name }}</p>
                                 <p class="text-xs text-gray-400">{{ $destination->location }}</p>
@@ -72,6 +73,7 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 
     <div class="mt-4">{{ $destinations->links() }}</div>
 </div>

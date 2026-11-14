@@ -3,6 +3,7 @@
 namespace App\Services\Payments;
 
 use App\Models\Booking;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -46,7 +47,15 @@ class SandboxGateway implements GatewayInterface
             return false;
         }
 
-        $expected = hash_hmac('sha256', $rawBody, (string) config('payment.webhook_secret'));
+        $secret = (string) config('payment.webhook_secret');
+
+        if ($secret === '' || $secret === 'change-me-production-secret') {
+            Log::warning('Webhook ditolak: PAYMENT_WEBHOOK_SECRET belum diganti dengan nilai rahasia yang kuat.');
+
+            return false;
+        }
+
+        $expected = hash_hmac('sha256', $rawBody, $secret);
 
         return hash_equals($expected, $signature);
     }

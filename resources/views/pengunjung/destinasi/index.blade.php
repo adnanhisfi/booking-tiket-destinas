@@ -88,7 +88,7 @@
     <div class="space-y-3">
         @forelse ($destinations as $destination)
             <a href="{{ route('katalog.detail', $destination->slug) }}" class="flex gap-3 p-2 rounded-2xl border bg-white hover:shadow">
-                <img src="{{ $img($destination) }}" class="w-24 h-24 rounded-xl object-cover" alt="{{ $destination->name }}">
+                <img src="{{ $img($destination) }}" loading="lazy" decoding="async" class="h-24 w-24 rounded-xl object-cover" alt="{{ $destination->name }}">
                 <div class="flex-1 py-1 min-w-0">
                     <div class="flex items-center gap-2">
                         <p class="font-semibold truncate">{{ $destination->name }}</p>

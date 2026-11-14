@@ -1,0 +1,17 @@
+HTTP/1.1 404 Not Found
+Host: 127.0.0.1:8099
+Connection: close
+X-Powered-By: PHP/8.2.12
+Cache-Control: no-cache, private
+Date: Sat, 07 Nov 2026 04:02:31 GMT
+Content-Type: application/json
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=()
+Cross-Origin-Opener-Policy: same-origin
+X-Permitted-Cross-Domain-Policies: none
+X-RateLimit-Limit: 120
+X-RateLimit-Remaining: 119
+Access-Control-Allow-Origin: *
+

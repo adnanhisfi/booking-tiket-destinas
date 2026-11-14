@@ -19,7 +19,7 @@ Route::prefix('v1')->group(function () {
     | Publik
     |--------------------------------------------------------------------------
     */
-    Route::post('auth/register', [AuthController::class, 'register'])->middleware('throttle:login');
+    Route::post('auth/register', [AuthController::class, 'register'])->middleware('throttle:register');
     Route::post('auth/login', [AuthController::class, 'login'])->middleware('throttle:login');
 
     Route::get('categories', [CategoryController::class, 'index']);
@@ -94,4 +94,15 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('vouchers', App\Http\Controllers\Api\V1\Admin\VoucherController::class)
             ->except(['show']);
     });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Fallback API
+    |--------------------------------------------------------------------------
+    */
+    Route::fallback(fn () => response()->json([
+        'success' => false,
+        'message' => 'Endpoint API tidak ditemukan.',
+        'code' => 404,
+    ], 404));
 });

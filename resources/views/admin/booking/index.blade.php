@@ -23,8 +23,8 @@
 @section('content')
 <div class="bg-white rounded-2xl border p-5">
     <div class="flex flex-wrap items-center gap-2 mb-4 text-sm">
-        <form method="GET" action="{{ route('admin.bookings.index') }}" class="flex flex-wrap gap-2 mr-2">
-            <input name="q" value="{{ request('q') }}" placeholder="Cari kode / nama / HP..." class="border rounded-xl px-4 py-2 w-60">
+        <form method="GET" action="{{ route('admin.bookings.index') }}" class="mr-2 flex w-full flex-wrap gap-2 sm:w-auto">
+            <input name="q" value="{{ request('q') }}" placeholder="Cari kode / nama / HP..." class="w-full border rounded-xl px-4 py-2 sm:w-60">
             <select name="destination_id" class="border rounded-xl px-3 py-2 text-sm">
                 <option value="">Semua destinasi</option>
                 @foreach ($destinations as $destination)
@@ -48,31 +48,33 @@
         @endforeach
     </div>
 
-    <table class="w-full text-sm">
-        <thead class="text-xs text-gray-400 text-left">
-            <tr><th class="py-2">KODE</th><th>PENGUNJUNG</th><th>DESTINASI</th><th>TANGGAL</th><th>TOTAL</th><th>STATUS</th><th>AKSI</th></tr>
-        </thead>
-        <tbody>
-            @forelse ($bookings as $booking)
-                <tr class="border-t">
-                    <td class="py-3 font-medium">
-                        <a href="{{ route('admin.bookings.show', $booking->code) }}" class="text-primary">{{ $booking->code }}</a>
-                    </td>
-                    <td>
-                        <p>{{ $booking->customer_name }}</p>
-                        <p class="text-xs text-gray-400">{{ $booking->user?->email }}</p>
-                    </td>
-                    <td>{{ $booking->destination?->name ?? '-' }}</td>
-                    <td>{{ $booking->visit_date->translatedFormat('d M Y') }}</td>
-                    <td>Rp {{ number_format((float) $booking->total_amount, 0, ',', '.') }}</td>
-                    <td>@include('partials.badge', ['s' => $booking->status])</td>
-                    <td><a href="{{ route('admin.bookings.show', $booking->code) }}" class="text-primary">Detail</a></td>
-                </tr>
-            @empty
-                <tr><td colspan="7" class="py-8 text-center text-gray-400">Belum ada booking.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
+    <div class="overflow-x-auto">
+        <table class="w-full min-w-[820px] text-sm">
+            <thead class="text-xs text-gray-400 text-left">
+                <tr><th class="py-2">KODE</th><th>PENGUNJUNG</th><th>DESTINASI</th><th>TANGGAL</th><th>TOTAL</th><th>STATUS</th><th>AKSI</th></tr>
+            </thead>
+            <tbody>
+                @forelse ($bookings as $booking)
+                    <tr class="border-t">
+                        <td class="py-3 font-medium">
+                            <a href="{{ route('admin.bookings.show', $booking->code) }}" class="text-primary">{{ $booking->code }}</a>
+                        </td>
+                        <td>
+                            <p>{{ $booking->customer_name }}</p>
+                            <p class="text-xs text-gray-400">{{ $booking->user?->email }}</p>
+                        </td>
+                        <td>{{ $booking->destination?->name ?? '-' }}</td>
+                        <td>{{ $booking->visit_date->translatedFormat('d M Y') }}</td>
+                        <td>Rp {{ number_format((float) $booking->total_amount, 0, ',', '.') }}</td>
+                        <td>@include('partials.badge', ['s' => $booking->status])</td>
+                        <td><a href="{{ route('admin.bookings.show', $booking->code) }}" class="text-primary">Detail</a></td>
+                    </tr>
+                @empty
+                    <tr><td colspan="7" class="py-8 text-center text-gray-400">Belum ada booking.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
     <div class="mt-4">{{ $bookings->links() }}</div>
 </div>

@@ -10,6 +10,7 @@ return [
     */
     'driver' => env('PAYMENT_DRIVER', 'manual'),
 
+    // Wajib diisi nilai acak yang kuat di production (mis. `php artisan key:generate --show`).
     'webhook_secret' => env('PAYMENT_WEBHOOK_SECRET', 'change-me-production-secret'),
 
     'return_url' => env('PAYMENT_RETURN_URL', 'http://localhost:8000/payment/return'),

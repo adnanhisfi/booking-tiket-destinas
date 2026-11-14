@@ -8,8 +8,8 @@
 @endsection
 
 @section('content')
-<div class="grid grid-cols-3 gap-4 mb-6">
-    <div class="col-span-2 bg-white rounded-2xl border p-5">
+<div class="mb-6 grid grid-cols-1 gap-4 xl:grid-cols-3">
+    <div class="bg-white rounded-2xl border p-5 xl:col-span-2">
         <div class="flex justify-between items-start mb-4">
             <div>
                 <p class="text-xs text-gray-400">Kode Booking</p>
@@ -18,7 +18,7 @@
             @include('partials.badge', ['s' => $booking->status])
         </div>
 
-        <div class="grid grid-cols-2 gap-4 text-sm">
+        <div class="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
             <div>
                 <p class="text-xs text-gray-400">Destinasi</p>
                 <p class="font-medium">{{ $booking->destination?->name ?? '-' }}</p>
@@ -48,7 +48,8 @@
 
         <div class="border-t mt-4 pt-4">
             <p class="text-sm font-semibold mb-2">Rincian Tiket</p>
-            <table class="w-full text-sm">
+            <div class="overflow-x-auto">
+            <table class="w-full min-w-[520px] text-sm">
                 <thead class="text-xs text-gray-400 text-left"><tr><th class="py-1">JENIS</th><th>HARGA</th><th>JUMLAH</th><th class="text-right">SUBTOTAL</th></tr></thead>
                 <tbody>
                     @foreach ($booking->items as $item)
@@ -67,6 +68,7 @@
                     <tr class="border-t"><td colspan="3" class="py-2 text-right font-semibold">Total</td><td class="text-right font-bold text-primary">Rp {{ number_format((float) $booking->total_amount, 0, ',', '.') }}</td></tr>
                 </tfoot>
             </table>
+            </div>
         </div>
     </div>
 
@@ -97,10 +99,11 @@
     </div>
 </div>
 
-<div class="grid grid-cols-2 gap-4">
+<div class="grid grid-cols-1 gap-4 xl:grid-cols-2">
     <div class="bg-white rounded-2xl border p-5">
         <p class="text-sm font-semibold mb-3">E-Ticket</p>
-        <table class="w-full text-sm">
+        <div class="overflow-x-auto">
+        <table class="w-full min-w-[420px] text-sm">
             <thead class="text-xs text-gray-400 text-left"><tr><th class="py-1">KODE TIKET</th><th>JENIS</th><th>STATUS</th><th>DIPAKAI</th></tr></thead>
             <tbody>
                 @forelse ($booking->tickets as $ticket)
@@ -115,11 +118,13 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </div>
 
     <div class="bg-white rounded-2xl border p-5">
         <p class="text-sm font-semibold mb-3">Pembayaran</p>
-        <table class="w-full text-sm">
+        <div class="overflow-x-auto">
+        <table class="w-full min-w-[520px] text-sm">
             <thead class="text-xs text-gray-400 text-left"><tr><th class="py-1">REFERENSI</th><th>METODE</th><th>JUMLAH</th><th>STATUS</th><th>BUKTI</th></tr></thead>
             <tbody>
                 @forelse ($booking->payments as $payment)
@@ -141,6 +146,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
         <a href="{{ route('admin.payments.index', ['q' => $booking->code]) }}" class="mt-3 inline-block text-sm text-primary">Kelola pembayaran ›</a>
     </div>
 </div>
