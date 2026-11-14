@@ -88,6 +88,16 @@
                 <div class="flex flex-wrap gap-2">@yield('actions')</div>
             </div>
             @include('partials.flash')
+            @unless (file_exists(public_path('storage')))
+                <div class="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                    <p class="font-semibold">Gambar upload belum bisa diakses.</p>
+                    <p class="mt-1 text-xs">
+                        Tautan <code class="rounded bg-amber-100 px-1">public/storage</code> belum ada.
+                        Jalankan <code class="rounded bg-amber-100 px-1">php artisan storage:link</code>
+                        di server ini, lalu muat ulang halaman.
+                    </p>
+                </div>
+            @endunless
             @yield('content')
         </main>
     </div>

@@ -3,9 +3,8 @@
 
 @php
     $user = auth()->user();
-    $img = fn ($d) => $d->thumbnail
-        ? asset('storage/'.$d->thumbnail)
-        : 'https://placehold.co/600x400/E8F5E9/2E7D32?text='.urlencode($d->name);
+    $placeholder = asset('images/destination-placeholder.svg');
+    $img = fn ($d) => $d->thumbnailUrl() ?? $placeholder;
 @endphp
 
 @section('content')
@@ -41,7 +40,8 @@
         <div class="flex gap-3 overflow-x-auto pb-2">
             @foreach ($destinations as $destination)
                 <a href="{{ route('katalog.detail', $destination->slug) }}" class="min-w-[46%] border rounded-2xl overflow-hidden">
-                    <img src="{{ $img($destination) }}" loading="lazy" decoding="async" class="h-24 w-full object-cover" alt="{{ $destination->name }}">
+                    <img src="{{ $img($destination) }}" loading="lazy" decoding="async" class="h-24 w-full object-cover" alt="{{ $destination->name }}"
+                         onerror="this.onerror=null;this.src='{{ $placeholder }}'">
                     <div class="p-2">
                         <p class="text-xs font-semibold truncate">{{ $destination->name }}</p>
                         <p class="text-[10px] text-gray-500 truncate">{{ $destination->location }}</p>

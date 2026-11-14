@@ -2,9 +2,8 @@
 @section('title', 'Riwayat Booking - JelajahKu')
 
 @php
-    $img = fn ($b) => $b->destination?->thumbnail
-        ? asset('storage/'.$b->destination->thumbnail)
-        : 'https://placehold.co/200x200/E8F5E9/2E7D32?text='.urlencode($b->destination?->name ?? 'Wisata');
+    $placeholder = asset('images/destination-placeholder.svg');
+    $img = fn ($b) => $b->destination?->thumbnailUrl() ?? $placeholder;
 @endphp
 
 @section('content')
@@ -21,7 +20,8 @@
     <div class="space-y-3">
         @forelse ($bookings as $booking)
             <div class="flex gap-3 border rounded-2xl p-2">
-                <img src="{{ $img($booking) }}" class="w-20 h-20 rounded-xl object-cover" alt="{{ $booking->destination?->name }}">
+                <img src="{{ $img($booking) }}" class="w-20 h-20 rounded-xl object-cover" alt="{{ $booking->destination?->name }}"
+                     onerror="this.onerror=null;this.src='{{ $placeholder }}'">
                 <div class="flex-1 min-w-0">
                     <div class="flex justify-between items-start gap-2">
                         <p class="font-semibold text-sm truncate">{{ $booking->destination?->name }}</p>

@@ -7,9 +7,8 @@
     $qtyInit = $ticketTypes->mapWithKeys(fn ($t) => [(string) $t->id => 0]);
     $priceMap = $ticketTypes->mapWithKeys(fn ($t) => [(string) $t->id => (float) $t->price]);
     $remainingMap = $availability->mapWithKeys(fn ($value, $key) => [(string) $key => (int) $value]);
-    $img = $destination->thumbnail
-        ? asset('storage/'.$destination->thumbnail)
-        : 'https://placehold.co/200x200/E8F5E9/2E7D32?text='.urlencode($destination->name);
+    $placeholder = asset('images/destination-placeholder.svg');
+    $img = $destination->thumbnailUrl() ?? $placeholder;
 @endphp
 
 @section('content')
@@ -37,7 +36,8 @@
     </div>
 
     <div class="flex gap-3 border rounded-2xl p-2 mb-4">
-        <img src="{{ $img }}" class="w-16 h-16 rounded-xl object-cover" alt="{{ $destination->name }}">
+        <img src="{{ $img }}" class="w-16 h-16 rounded-xl object-cover" alt="{{ $destination->name }}"
+             onerror="this.onerror=null;this.src='{{ $placeholder }}'">
         <div class="min-w-0">
             <p class="font-semibold text-sm truncate">{{ $destination->name }}</p>
             <p class="text-xs text-gray-500 truncate">{{ $destination->location }}</p>

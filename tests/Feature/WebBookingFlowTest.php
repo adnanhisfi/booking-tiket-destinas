@@ -95,7 +95,7 @@ class WebBookingFlowTest extends TestCase
 
         $this->assertSame(Booking::STATUS_PENDING, $booking->status);
         $this->assertSame('100000.00', $booking->total_amount);
-        $this->assertSame(2, $booking->items()->sum('quantity'));
+        $this->assertSame(2, (int) $booking->items()->sum('quantity'));
         $this->assertDatabaseHas('ticket_availability', [
             'ticket_type_id' => $ticketType->id,
             'sold' => 2,

@@ -13,6 +13,8 @@ use App\Models\User;
 use App\Services\BookingService;
 use App\Services\PaymentService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\Concerns\CreatesCatalog;
 use Tests\TestCase;
 
@@ -135,6 +137,41 @@ class WebAdminTest extends TestCase
             ->assertRedirect(route('admin.destinations.index'));
 
         $this->assertDatabaseMissing('destinations', ['id' => $destination->id]);
+    }
+
+    public function test_thumbnail_yang_diunggah_tersimpan_dan_tampil_di_halaman_admin(): void
+    {
+        Storage::fake('public');
+
+        $admin = $this->admin();
+        $category = Category::create(['name' => 'Pantai', 'slug' => 'pantai-'.uniqid()]);
+
+        $thumbnail = UploadedFile::fake()->createWithContent(
+            'pantai.png',
+            base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==')
+        );
+
+        $this->actingAs($admin)
+            ->post(route('admin.destinations.store'), [
+                'name' => 'Pantai Uji',
+                'category_id' => $category->id,
+                'description' => 'Pantai untuk pengujian unggah gambar.',
+                'location' => 'Bali',
+                'status' => 'active',
+                'thumbnail' => $thumbnail,
+            ])
+            ->assertRedirect(route('admin.destinations.index'));
+
+        $destination = Destination::query()->where('name', 'Pantai Uji')->firstOrFail();
+
+        $this->assertNotNull($destination->thumbnail);
+        Storage::disk('public')->assertExists($destination->thumbnail);
+        $this->assertSame(asset('storage/'.$destination->thumbnail), $destination->thumbnailUrl());
+
+        $this->actingAs($admin)
+            ->get(route('admin.destinations.index'))
+            ->assertOk()
+            ->assertSee($destination->thumbnailUrl(), false);
     }
 
     public function test_admin_dapat_mengelola_jenis_tiket_dan_kuota(): void

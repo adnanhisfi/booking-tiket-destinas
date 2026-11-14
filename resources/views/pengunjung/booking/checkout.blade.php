@@ -6,9 +6,8 @@
     $pendingPayment = $booking->payments->firstWhere('status', \App\Models\Payment::STATUS_PENDING);
     $isPaid = in_array($booking->status, [\App\Models\Booking::STATUS_PAID, \App\Models\Booking::STATUS_COMPLETED], true);
     $isPending = $booking->status === \App\Models\Booking::STATUS_PENDING;
-    $img = $booking->destination?->thumbnail
-        ? asset('storage/'.$booking->destination->thumbnail)
-        : 'https://placehold.co/200x200/E8F5E9/2E7D32?text='.urlencode($booking->destination?->name ?? 'Wisata');
+    $placeholder = asset('images/destination-placeholder.svg');
+    $img = $booking->destination?->thumbnailUrl() ?? $placeholder;
 @endphp
 
 @section('content')
@@ -28,7 +27,8 @@
 
     <p class="text-sm font-semibold mb-2">Detail Pemesanan</p>
     <div class="flex gap-3 border rounded-2xl p-2 mb-4">
-        <img src="{{ $img }}" class="w-16 h-16 rounded-xl object-cover" alt="{{ $booking->destination?->name }}">
+        <img src="{{ $img }}" class="w-16 h-16 rounded-xl object-cover" alt="{{ $booking->destination?->name }}"
+             onerror="this.onerror=null;this.src='{{ $placeholder }}'">
         <div class="min-w-0">
             <p class="font-semibold text-sm truncate">{{ $booking->destination?->name }}</p>
             <p class="text-xs text-gray-500">

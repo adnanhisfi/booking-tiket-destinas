@@ -83,4 +83,20 @@ class Destination extends Model
             ->where('status', TicketType::STATUS_ACTIVE)
             ->min('price');
     }
+
+    /**
+     * URL publik untuk thumbnail. Null jika destinasi belum punya gambar.
+     *
+     * Memakai asset() agar mengikuti host/skema request saat ini, bukan APP_URL.
+     * File fisiknya berada di storage/app/public dan diakses lewat symlink
+     * public/storage (jalankan `php artisan storage:link`).
+     */
+    public function thumbnailUrl(): ?string
+    {
+        if (blank($this->thumbnail)) {
+            return null;
+        }
+
+        return asset('storage/'.ltrim($this->thumbnail, '/'));
+    }
 }

@@ -48,7 +48,7 @@ php artisan key:generate
 # DB_DATABASE=jelajahku
 
 php artisan migrate --seed
-php artisan storage:link      # agar bukti transfer bisa diakses
+php artisan storage:link      # agar thumbnail destinasi & bukti transfer bisa diakses
 ```
 
 Akun hasil seeder:
@@ -73,6 +73,28 @@ Atau sekaligus: `composer run dev`.
 
 > Worker `bookings:expire` dijalankan setiap menit (lihat `routes/console.php`) untuk
 > mengembalikan kuota booking yang melewati batas pembayaran.
+
+### Gambar hasil upload tidak muncul
+
+Thumbnail destinasi dan bukti transfer disimpan di `storage/app/public`, sedangkan browser
+mengaksesnya lewat `public/storage`. Jika gambar tidak tampil (ikon rusak/placeholder), buat
+tautan tersebut sekali di setiap environment:
+
+```bash
+php artisan storage:link
+```
+
+Jika `public/storage` sudah ada tetapi tetap gagal, pastikan symlink tidak rusak dan folder
+storage dapat dibaca web server:
+
+```bash
+ls -l public/storage
+chmod -R ug+rwX storage bootstrap/cache
+```
+
+Catatan: `public/storage` memang tidak ikut Git (lihat `.gitignore`), jadi tautan ini harus
+dibuat ulang setelah deploy. Panel admin juga menampilkan peringatan otomatis bila tautan
+belum tersedia.
 
 ## Antarmuka Web
 

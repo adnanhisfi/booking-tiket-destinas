@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img" aria-label="Gambar destinasi belum tersedia">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8f5e9"/>
+      <stop offset="1" stop-color="#c8e6c9"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#81c784"/>
+      <stop offset="1" stop-color="#2e7d32"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="600" cy="120" r="52" fill="#fff9c4"/>
+  <path d="M0 360 150 230l120 105 95-80 145 120 110-95 180 145v75H0Z" fill="#a5d6a7"/>
+  <path d="M0 410 120 320l105 75 85-65 130 95 120-80 240 135v20H0Z" fill="url(#hill)"/>
+  <path d="M60 455c90-35 160-35 250 0s170 35 260 0 170-35 230 0v45H60Z" fill="#1b5e20" opacity=".18"/>
+</svg>

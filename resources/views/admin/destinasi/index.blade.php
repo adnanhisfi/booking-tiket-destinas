@@ -34,14 +34,14 @@
         <tbody>
             @forelse ($destinations as $destination)
                 @php
-                    $thumb = $destination->thumbnail
-                        ? asset('storage/'.$destination->thumbnail)
-                        : 'https://placehold.co/80x80/E8F5E9/2E7D32?text='.urlencode(substr($destination->name, 0, 2));
+                    $placeholder = asset('images/destination-placeholder.svg');
+                    $thumb = $destination->thumbnailUrl() ?? $placeholder;
                 @endphp
                 <tr class="border-t">
                     <td class="py-3">
                         <div class="flex items-center gap-3">
-                            <img src="{{ $thumb }}" loading="lazy" decoding="async" class="h-11 w-11 rounded-lg object-cover" alt="{{ $destination->name }}">
+                            <img src="{{ $thumb }}" loading="lazy" decoding="async" class="h-11 w-11 rounded-lg object-cover" alt="{{ $destination->name }}"
+                                 onerror="this.onerror=null;this.src='{{ $placeholder }}'">
                             <div>
                                 <p class="font-medium">{{ $destination->name }}</p>
                                 <p class="text-xs text-gray-400">{{ $destination->location }}</p>

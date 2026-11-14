@@ -68,9 +68,11 @@
     <div>
         <label class="text-xs font-medium">Gambar / Thumbnail</label>
         <input type="file" name="thumbnail" accept="image/*" class="{{ $in }}">
-        @if ($edit && $destinasi->thumbnail)
+        @if ($edit && $destinasi->thumbnailUrl())
+            @php $placeholder = asset('images/destination-placeholder.svg'); @endphp
             <div class="mt-2 flex items-center gap-2">
-                <img src="{{ asset('storage/'.$destinasi->thumbnail) }}" class="w-16 h-16 rounded-lg object-cover" alt="Thumbnail">
+                <img src="{{ $destinasi->thumbnailUrl() }}" class="w-16 h-16 rounded-lg object-cover" alt="Thumbnail"
+                     onerror="this.onerror=null;this.src='{{ $placeholder }}'">
                 <span class="text-[11px] text-gray-400">Biarkan kosong jika tidak ingin mengganti gambar.</span>
             </div>
         @endif

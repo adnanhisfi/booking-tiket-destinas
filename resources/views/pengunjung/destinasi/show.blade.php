@@ -4,9 +4,8 @@
 
 @php
     $user = auth()->user();
-    $img = $destination->thumbnail
-        ? asset('storage/'.$destination->thumbnail)
-        : 'https://placehold.co/800x500/E8F5E9/2E7D32?text='.urlencode($destination->name);
+    $placeholder = asset('images/destination-placeholder.svg');
+    $img = $destination->thumbnailUrl() ?? $placeholder;
     $rating = (float) ($destination->rating_avg ?? 0);
     $minPrice = $destination->min_price;
     $canBook = ! $user || $user->role === \App\Models\User::ROLE_CUSTOMER;
@@ -15,7 +14,8 @@
 @section('content')
 <div class="pb-24">
     <div class="relative">
-        <img src="{{ $img }}" class="w-full h-56 object-cover" alt="{{ $destination->name }}">
+        <img src="{{ $img }}" class="w-full h-56 object-cover" alt="{{ $destination->name }}"
+             onerror="this.onerror=null;this.src='{{ $placeholder }}'">
         <a href="{{ route('katalog.index') }}" class="absolute top-4 left-4 w-9 h-9 rounded-full bg-white grid place-items-center shadow">‹</a>
     </div>
 

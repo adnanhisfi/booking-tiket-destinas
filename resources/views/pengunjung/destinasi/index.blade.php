@@ -2,9 +2,8 @@
 @section('title', 'Destinasi Wisata - JelajahKu')
 
 @php
-    $img = fn ($d) => $d->thumbnail
-        ? asset('storage/'.$d->thumbnail)
-        : 'https://placehold.co/300x300/E8F5E9/2E7D32?text='.urlencode($d->name);
+    $placeholder = asset('images/destination-placeholder.svg');
+    $img = fn ($d) => $d->thumbnailUrl() ?? $placeholder;
     $params = array_filter(request()->only(['q', 'sort', 'location', 'min_price', 'max_price']), fn ($v) => $v !== null && $v !== '');
 @endphp
 
@@ -88,7 +87,8 @@
     <div class="space-y-3">
         @forelse ($destinations as $destination)
             <a href="{{ route('katalog.detail', $destination->slug) }}" class="flex gap-3 p-2 rounded-2xl border bg-white hover:shadow">
-                <img src="{{ $img($destination) }}" loading="lazy" decoding="async" class="h-24 w-24 rounded-xl object-cover" alt="{{ $destination->name }}">
+                <img src="{{ $img($destination) }}" loading="lazy" decoding="async" class="h-24 w-24 rounded-xl object-cover" alt="{{ $destination->name }}"
+                     onerror="this.onerror=null;this.src='{{ $placeholder }}'">
                 <div class="flex-1 py-1 min-w-0">
                     <div class="flex items-center gap-2">
                         <p class="font-semibold truncate">{{ $destination->name }}</p>
