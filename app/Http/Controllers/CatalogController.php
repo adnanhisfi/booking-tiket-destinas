@@ -19,15 +19,18 @@ class CatalogController extends Controller
     {
         $categories = Category::cachedList();
 
+        $keyword = $this->queryString($request, 'q');
+        $categorySlug = $this->queryString($request, 'category');
+
         $destinations = Destination::query()
             ->active()
             ->with('category:id,name,slug')
             ->withMin(['ticketTypes as min_price' => fn ($q) => $q->where('status', 'active')], 'price')
             ->withAvg('reviews as rating_avg', 'rating')
-            ->search($request->input('q'))
-            ->when($request->filled('category'), fn ($q) => $q->whereHas(
+            ->search($keyword)
+            ->when($categorySlug !== null, fn ($q) => $q->whereHas(
                 'category',
-                fn ($c) => $c->where('slug', $request->input('category'))
+                fn ($c) => $c->where('slug', $categorySlug)
             ))
             ->orderByDesc('is_featured')
             ->orderByDesc('id')

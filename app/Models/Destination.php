@@ -64,9 +64,9 @@ class Destination extends Model
         return $query->where('status', self::STATUS_ACTIVE);
     }
 
-    public function scopeSearch($query, ?string $keyword)
+    public function scopeSearch($query, mixed $keyword)
     {
-        if (! $keyword) {
+        if (! is_string($keyword) || trim($keyword) === '') {
             return $query;
         }
 

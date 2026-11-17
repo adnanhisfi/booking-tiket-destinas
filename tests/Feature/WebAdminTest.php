@@ -287,6 +287,7 @@ class WebAdminTest extends TestCase
             ->assertRedirect(route('admin.bookings.show', $pending->code));
 
         $this->assertSame(Booking::STATUS_CANCELLED, $pending->fresh()->status);
+        $this->assertSame('Dibatalkan oleh admin.', $pending->fresh()->notes);
         $this->assertDatabaseHas('ticket_availability', [
             'ticket_type_id' => $ticketType->id,
             'sold' => 0,

@@ -34,6 +34,7 @@ class Booking extends Model
         'expires_at',
         'paid_at',
         'cancelled_at',
+        'notes',
     ];
 
     protected function casts(): array

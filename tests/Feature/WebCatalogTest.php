@@ -12,6 +12,15 @@ class WebCatalogTest extends TestCase
 {
     use CreatesCatalog, RefreshDatabase;
 
+    public function test_pencarian_di_beranda_tidak_error_untuk_input_tidak_valid(): void
+    {
+        $date = now()->addDay()->toDateString();
+        $this->destinationWithTicket($date);
+
+        $this->get('/?q[]=abc')->assertOk();
+        $this->get('/?q=abc&category[]=pantai')->assertOk();
+    }
+
     public function test_filter_lokasi_dan_rentang_harga_di_halaman_destinasi(): void
     {
         $date = now()->addDay()->toDateString();
